@@ -7,7 +7,6 @@ export function Home() {
     return (
         <>
             <p className={clsx(styles.title)}>Home page</p>
-            <SignIn />
         </>
     )
 }
