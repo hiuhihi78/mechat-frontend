@@ -1,23 +1,17 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import { signIn } from '~/api/Auth'
 import { RESULT_CODES } from '~/constants/resultCode.constant.ts'
 import { useNavigate } from 'react-router-dom';
-import { Color } from 'antd/es/color-picker'
+
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
 export function SignIn() {
 
     const navigate = useNavigate();
+    const signInAuth = useSignIn();
 
     const [message, setMessage] = useState('')
-    const [buttonLoading, setButtonLoading] = useState(false)
-
-    const clickButton = () => {
-        setButtonLoading(true)
-    }
-
     const onFinish = (values) => {
         var data = {
             username: values.username,
@@ -26,23 +20,26 @@ export function SignIn() {
 
         signIn(data).then((response) => {
             var result = response.data
-            if (result.code == RESULT_CODES.SUCCESS) {
-                navigate('/home')
+            if (result.code !== RESULT_CODES.SUCCESS) {
+                setMessage(result.message)
+                return;
             }
 
-            setMessage(result.message)
-
+            signInAuth({
+                auth: {
+                    token: result.value.accessToken,
+                    type: 'Bearer'
+                },
+                //refresh: result.value.refreshToken,
+                userState: {
+                    userId: result.value.userId
+                }
+            })
+            navigate('/home')
         })
     }
 
     return (
-        // <>
-        //     <div className="bg-blue-500 text-white p-4">
-        //         This is a Tailwind CSS styled component.
-        //     </div>
-        //     <FontAwesomeIcon icon={faUser} />
-        //     <Button loading={buttonLoading} onClick={clickButton}>SignIn</Button>
-        // </>
         <>
             <Form
                 name="basic"
