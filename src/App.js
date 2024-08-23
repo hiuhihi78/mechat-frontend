@@ -6,6 +6,7 @@ import createStore from 'react-auth-kit/createStore';
 import ContextContainer from '~/contexts/ContextContainer'
 import { Home } from "./pages/Home"
 import { SignIn } from "./pages/SignIn";
+import { InterceptorContainer } from "./interceptors/InterceptorContainer";
 
 
 const store = createStore({
@@ -20,12 +21,14 @@ function App() {
   return (
     <AuthProvider store={store}>
       <ContextContainer>
-        <Router>
-          <Routes>
-            <Route path="home" element={<Home />} />
-            <Route path="signIn" element={<SignIn />} />
-          </Routes>
-        </Router>
+        <InterceptorContainer>
+          <Router>
+            <Routes>
+              <Route path="home" element={<Home />} />
+              <Route path="signIn" element={<SignIn />} />
+            </Routes>
+          </Router>
+        </InterceptorContainer>
       </ContextContainer>
     </AuthProvider>
   );
