@@ -13,6 +13,8 @@ export function SignIn() {
     const signInAuth = useSignIn();
     const notification = useContext(NotificationContext)
 
+    const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         notification('info', 'hieuld')
     }, [])
@@ -25,21 +27,27 @@ export function SignIn() {
             password: values.password
         }
 
+        setLoading(true)
+
         signIn(data).then((response) => {
-            var result = response.data
-            if (result.code !== RESULT_CODES.SUCCESS) {
-                setMessage(result.message)
+
+            setTimeout(() => {
+                setLoading(false)
+            }, 500)
+
+            if (response.code !== RESULT_CODES.SUCCESS) {
+                setMessage(response.message)
                 return;
             }
 
             signInAuth({
                 auth: {
-                    token: result.value.accessToken,
+                    token: response.value.accessToken,
                     type: 'Bearer'
                 },
                 //refresh: result.value.refreshToken,
                 userState: {
-                    userId: result.value.userId
+                    userId: response.value.userId
                 }
             })
             navigate('/home')
@@ -96,8 +104,15 @@ export function SignIn() {
                         span: 16,
                     }}
                 >
-                    {message === '' ? <></> : <i style={{ color: 'red' }}>{message}</i>}
-                    <Button type="primary" htmlType="submit">
+                    {message === '' ?
+                        <></>
+                        :
+                        <>
+                            <i style={{ color: 'red' }}>{message}</i>
+                            <br />
+                        </>
+                    }
+                    <Button loading={loading} type="primary" htmlType="submit">
                         Submit
                     </Button>
                 </Form.Item>
