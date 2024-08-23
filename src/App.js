@@ -1,10 +1,12 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import AuthProvider from 'react-auth-kit';
+import createStore from 'react-auth-kit/createStore';
+
+import ContextContainer from '~/contexts/ContextContainer'
 import { Home } from "./pages/Home"
 import { SignIn } from "./pages/SignIn";
 
-import AuthProvider from 'react-auth-kit';
-import createStore from 'react-auth-kit/createStore';
 
 const store = createStore({
   authName: '_auth',
@@ -17,12 +19,14 @@ function App() {
 
   return (
     <AuthProvider store={store}>
-      <Router>
-        <Routes>
-          <Route path="home" element={<Home />} />
-          <Route path="signIn" element={<SignIn />} />
-        </Routes>
-      </Router>
+      <ContextContainer>
+        <Router>
+          <Routes>
+            <Route path="home" element={<Home />} />
+            <Route path="signIn" element={<SignIn />} />
+          </Routes>
+        </Router>
+      </ContextContainer>
     </AuthProvider>
   );
 }

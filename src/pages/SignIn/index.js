@@ -1,15 +1,22 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import { signIn } from '~/api/Auth'
 import { RESULT_CODES } from '~/constants/resultCode.constant.ts'
 import { useNavigate } from 'react-router-dom';
 
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { NotificationContext } from '~/contexts/NotificationContext';
 
 export function SignIn() {
 
     const navigate = useNavigate();
     const signInAuth = useSignIn();
+    const notification = useContext(NotificationContext)
+
+    useEffect(() => {
+        notification('info', 'hieuld')
+    }, [])
+
 
     const [message, setMessage] = useState('')
     const onFinish = (values) => {
