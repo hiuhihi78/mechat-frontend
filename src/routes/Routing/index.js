@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useCallback, useState, useLayoutEffect } from "react";
 import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import routes from "../routes";
@@ -9,21 +9,31 @@ function Routing() {
 
     const [routesCanVisit, setRoutesCanVisit] = useState([])
 
+
+    const getRoutesCanVisit = useCallback(() => {
+        var roleId = getUserRoleId()
+        setRoutesCanVisit([])
+        routes.forEach((route) => {
+            if (route.role === undefined) {
+                setRoutesCanVisit((prev) => [...prev, route])
+            } else {
+                if (roleId === undefined)
+                    return;
+                if (route.roles.includes(roleId)) {
+                    setRoutesCanVisit((prev) => [...prev, route])
+                }
+            }
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        getRoutesCanVisit()
+    }, [])
+
     useLayoutEffect(() => {
         const interval = setInterval(() => {
-            var roleId = getUserRoleId()
-            setRoutesCanVisit([])
-            routes.forEach((route) => {
-                if (route.role === undefined) {
-                    setRoutesCanVisit((prev) => [...prev, route])
-                } else {
-                    if (roleId === undefined)
-                        return;
-                    if (route.roles.includes(roleId)) {
-                        setRoutesCanVisit((prev) => [...prev, route])
-                    }
-                }
-            })
+            getRoutesCanVisit()
         }, 5000)
 
         return () => clearInterval(interval)

@@ -10,10 +10,14 @@ import { SignIn } from "~/pages/SignIn";
 
 const routes = [
     {
+        path: ENPOINT.EMPTY,
+        component: <Home />,
+        layout: <MainLayout />,
+    },
+    {
         path: ENPOINT.HOME,
         component: <Home />,
         layout: <MainLayout />,
-        roles: []
     },
     {
         path: ENPOINT.SIGN_IN,
