@@ -4,7 +4,7 @@ import { signIn } from '~/api/Auth'
 import { RESULT_CODES } from '~/constants/ResultCode.constant.ts'
 import { useNavigate } from 'react-router-dom';
 
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useSignIn } from 'react-auth-kit';
 import { NotificationContext } from '~/contexts/NotificationContext';
 import { storeAccessToken, storeUserId, storeUserRoleId } from '~/utils/cookie.util';
 
@@ -42,18 +42,14 @@ export function SignIn() {
             }
 
             signInAuth({
-                auth: {
-                    token: response.value.accessToken,
-                    type: 'Bearer'
-                },
+                token: '',
+                expiresIn: 10000,
                 //refresh: result.value.refreshToken,
-                userState: {
-                    userId: response.value.userId
+                authState: {
+                    userId: response.value.userId,
+                    roleId: response.value.roleId
                 }
             })
-            storeAccessToken(response.value.accessToken)
-            storeUserId(response.value.userId)
-            storeUserRoleId(response.value.roleId)
             navigate('/home')
         })
     }

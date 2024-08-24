@@ -4,40 +4,36 @@ import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom
 import routes from "../routes";
 import { getUserRoleId } from "~/utils/cookie.util";
 import NotFound from "~/pages/NotFound";
+import { useAuthUser } from "react-auth-kit";
 
 function Routing() {
+
+    const auth = useAuthUser()
+    const user = auth()
 
     const [routesCanVisit, setRoutesCanVisit] = useState([])
 
 
     const getRoutesCanVisit = useCallback(() => {
-        var roleId = getUserRoleId()
         setRoutesCanVisit([])
         routes.forEach((route) => {
             if (route.role === undefined) {
                 setRoutesCanVisit((prev) => [...prev, route])
             } else {
-                if (roleId === undefined)
+                if (user.roleId === undefined)
                     return;
-                if (route.roles.includes(roleId)) {
+                if (route.roles.includes(user.roleId)) {
                     setRoutesCanVisit((prev) => [...prev, route])
                 }
             }
         })
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        getRoutesCanVisit()
-    }, [])
-
     useLayoutEffect(() => {
-        const interval = setInterval(() => {
-            getRoutesCanVisit()
-        }, 5000)
-
-        return () => clearInterval(interval)
-    }, [])
+        getRoutesCanVisit()
+    }, [user])
 
     return (
         <>
