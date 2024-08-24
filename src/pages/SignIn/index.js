@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import { signIn } from '~/api/Auth'
-import { RESULT_CODES } from '~/constants/resultCode.constant.ts'
+import { RESULT_CODES } from '~/constants/ResultCode.constant.ts'
 import { useNavigate } from 'react-router-dom';
 
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { NotificationContext } from '~/contexts/NotificationContext';
+import { storeAccessToken, storeUserId, storeUserRoleId } from '~/utils/cookie.util';
 
 export function SignIn() {
 
@@ -50,6 +51,9 @@ export function SignIn() {
                     userId: response.value.userId
                 }
             })
+            storeAccessToken(response.value.accessToken)
+            storeUserId(response.value.userId)
+            storeUserRoleId(response.value.roleId)
             navigate('/home')
         })
     }

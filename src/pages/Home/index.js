@@ -4,6 +4,7 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { Button } from 'antd';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import { useNavigate } from 'react-router-dom';
+import { removeAllDataInCookie } from '~/utils/cookie.util'
 
 export function Home() {
     const auth = useAuthUser()
@@ -12,6 +13,7 @@ export function Home() {
 
     const clickSignOutButton = () => {
         signOut();
+        removeAllDataInCookie()
         navigate('/signIn')
     }
 
