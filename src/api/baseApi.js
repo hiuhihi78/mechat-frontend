@@ -12,14 +12,14 @@ const headerRequestAuth = () => {
 };
 
 
-const headerRequestForForm = () => {
-    return {
-        headers: {
-            Authorization: `Bearer ${''}`,
-            'Content-Type': "multipart/form-data",
-        },
-    };
-};
+// const headerRequestForForm = () => {
+//     return {
+//         headers: {
+//             Authorization: `Bearer ${''}`,
+//             'Content-Type': "multipart/form-data",
+//         },
+//     };
+// };
 
 export const apiGet = async (url) => {
     const response = axios.get(url)

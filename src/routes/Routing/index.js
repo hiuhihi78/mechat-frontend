@@ -12,7 +12,6 @@ function Routing() {
 
     const [routesCanVisit, setRoutesCanVisit] = useState([])
 
-
     const getRoutesCanVisit = useCallback(() => {
         setRoutesCanVisit([])
         routes.forEach((route) => {
