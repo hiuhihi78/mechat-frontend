@@ -47,7 +47,11 @@ function HeaderLayout() {
     return (
         <div className={clsx(styles.header)}>
             <div className={clsx(styles.logo)}>
-                <Avatar shape="square" size={'large'} src='https://cdnphoto.dantri.com.vn/YAfcu9nd4T5dX06hhpaf19_QvY8=/thumb_w/960/2021/05/15/co-gai-noi-nhu-con-vi-anh-can-cuoc-xinh-nhu-mong-nhan-sac-ngoai-doi-con-bat-ngo-hon-2-1621075314070.jpg' />
+                <Avatar
+                    shape="square" size={'large'}
+                    onClick={() => { navigate(ENPOINT.HOME) }}
+                    src='https://cdnphoto.dantri.com.vn/YAfcu9nd4T5dX06hhpaf19_QvY8=/thumb_w/960/2021/05/15/co-gai-noi-nhu-con-vi-anh-can-cuoc-xinh-nhu-mong-nhan-sac-ngoai-doi-con-bat-ngo-hon-2-1621075314070.jpg'
+                />
             </div>
             <div className={clsx(styles.menu)}>
                 {(() => {
@@ -69,21 +73,21 @@ function HeaderLayout() {
                     } else {
                         return (
 
-                            <>
+                            <div className={clsx(styles['menu-user-sign-in'])}>
                                 <Dropdown
                                     menu={{
                                         items,
                                     }}
                                     placement="bottom"
                                     arrow
-                                    className={clsx(styles['menu-user-sign-in'])}
+                                    styles={{ minWidth: '40px' }}
                                 >
                                     <Space>
-                                        <Avatar size="large" icon={<UserOutlined />} />
-                                        <p>hieuld02</p>
+                                        <Avatar size="default" icon={<UserOutlined />} />
+                                        <p>{user?.fullname}</p>
                                     </Space>
                                 </Dropdown>
-                            </>
+                            </div>
                         )
                     }
                 })()}

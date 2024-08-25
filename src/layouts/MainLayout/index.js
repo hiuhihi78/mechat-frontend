@@ -4,8 +4,9 @@ import HeaderLayout from "~/components/HeaderLayout";
 import clsx from "clsx";
 
 import styles from "./MainLayout.module.scss"
+import FooterLayout from "~/components/Footer";
 
-const { Footer, Content } = Layout;
+const { Content } = Layout;
 
 
 function MainLayout(props) {
@@ -17,7 +18,7 @@ function MainLayout(props) {
                     <Outlet />
                 </Content>
             </div>
-            <Footer>hihi</Footer>
+            <FooterLayout />
         </Layout>
     );
 }

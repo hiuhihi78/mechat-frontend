@@ -42,12 +42,15 @@ export function SignIn() {
                 return;
             }
 
+            console.log(response)
+
             signInAuth({
                 token: '',
                 expiresIn: 10000,
                 //refresh: result.value.refreshToken,
                 authState: {
                     userId: response.value.userId,
+                    fullname: response.value.fullname,
                     roleId: response.value.roleId
                 }
             })

@@ -1,19 +1,23 @@
 .header {
-    @apply pt-1 h-12 bg-[#cbd5e1] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] flex flex-row
+    @apply h-12 bg-[#cbd5e1] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] flex flex-row
 }
 
 .logo {
-    @apply basis-3/4 ml-1
+    @apply mt-1 basis-3/4 ml-1 cursor-pointer 
 }
 
 .menu {
-    @apply basis-1/4 
+    @apply mt-2 basis-1/4 
 }
 
 .menu-user-un-sign-in{
-    @apply flex items-end space-x-4 
+    display: flex;
+    justify-content: flex-end;
+    @apply mr-5 space-x-4 flex items-center
 }
 
 .menu-user-sign-in{
-    @apply cursor-pointer 
+    display: flex;
+    justify-content: flex-end;
+    @apply mr-5 cursor-pointer 
 }

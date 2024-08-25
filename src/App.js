@@ -15,7 +15,6 @@ function App() {
       authName={'_auth'}
       //refresh={refreshToken}
       cookieDomain={window.location.hostname}
-      cookieSecure
     >
       <ContextContainer>
         <InterceptorContainer>
