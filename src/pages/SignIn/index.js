@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSignIn } from 'react-auth-kit';
 import { NotificationContext } from '~/contexts/NotificationContext';
-import { storeAccessToken, storeUserId, storeUserRoleId } from '~/utils/cookie.util';
 
 export function SignIn() {
 
@@ -31,6 +30,8 @@ export function SignIn() {
         setLoading(true)
 
         signIn(data).then((response) => {
+
+            console.log(response)
 
             setTimeout(() => {
                 setLoading(false)

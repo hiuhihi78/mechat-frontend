@@ -3,5 +3,8 @@
     "editor.defaultFormatter": "dsznajder.es7-react-js-snippets",
     "[javascript]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
-    }
+    },
+    "css.customData": [
+        ".vscode/tailwind.json"
+    ]
 }

@@ -1,8 +1,7 @@
-import { useEffect, useCallback, useState, useLayoutEffect } from "react";
+import { useCallback, useState, useLayoutEffect } from "react";
 import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import routes from "../routes";
-import { getUserRoleId } from "~/utils/cookie.util";
 import NotFound from "~/pages/NotFound";
 import { useAuthUser } from "react-auth-kit";
 
@@ -28,8 +27,7 @@ function Routing() {
             }
         })
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [user]);
 
     useLayoutEffect(() => {
         getRoutesCanVisit()

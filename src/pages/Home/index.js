@@ -1,9 +1,10 @@
-import { clsx } from 'clsx';
-import styles from "./Home.module.scss"
+import { useNavigate } from 'react-router-dom';
 import { useAuthUser, useSignOut } from 'react-auth-kit';
 import { Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { removeAllDataInCookie } from '~/utils/cookie.util'
+import { clsx } from 'clsx';
+
+
+import styles from "./Home.module.scss"
 
 export function Home() {
     const auth = useAuthUser()
@@ -14,7 +15,6 @@ export function Home() {
 
     const clickSignOutButton = () => {
         signOut();
-        removeAllDataInCookie()
         navigate('/signIn')
     }
 

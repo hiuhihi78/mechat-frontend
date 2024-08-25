@@ -1,0 +1,19 @@
+.header {
+    @apply pt-1 h-12 bg-[#cbd5e1] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] flex flex-row
+}
+
+.logo {
+    @apply basis-3/4 ml-1
+}
+
+.menu {
+    @apply basis-1/4 
+}
+
+.menu-user-un-sign-in{
+    @apply flex items-end space-x-4 
+}
+
+.menu-user-sign-in{
+    @apply cursor-pointer 
+}

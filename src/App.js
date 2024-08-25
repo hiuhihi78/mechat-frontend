@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { AuthProvider } from 'react-auth-kit';
 
 import ContextContainer from '~/contexts/ContextContainer'
