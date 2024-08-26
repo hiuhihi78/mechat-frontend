@@ -30,6 +30,5 @@ export const storeUserRoleId = (roleId) => {
 
 export const removeAllDataInCookie = () => {
     Cookies.remove(APPLICATION.ACCESS_TOKEN)
-    Cookies.remove(APPLICATION.USER_ID)
     Cookies.remove(APPLICATION.USER_ROLE_ID)
 }

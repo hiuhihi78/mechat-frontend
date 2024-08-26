@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSignOut } from 'react-auth-kit';
 import { Button } from 'antd';
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';
+import { removeAllDataInCookie } from "~/utils/cookie.util"
 
 function SignOut() {
     const signOut = useSignOut()
@@ -9,6 +10,7 @@ function SignOut() {
 
     const clickSignOutButton = () => {
         signOut();
+        removeAllDataInCookie()
         navigate(ENPOINT.SIGN_IN)
     }
 

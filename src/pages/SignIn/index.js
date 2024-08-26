@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useSignIn } from 'react-auth-kit';
 import { NotificationContext } from '~/contexts/NotificationContext';
+import { storeAccessToken, storeUserId } from '~/utils/cookie.util';
 
 export function SignIn() {
 
@@ -31,8 +32,6 @@ export function SignIn() {
 
         signIn(data).then((response) => {
 
-            console.log(response)
-
             setTimeout(() => {
                 setLoading(false)
             }, 500)
@@ -41,8 +40,6 @@ export function SignIn() {
                 setMessage(response.message)
                 return;
             }
-
-            console.log(response)
 
             signInAuth({
                 token: '',
@@ -54,6 +51,9 @@ export function SignIn() {
                     roleId: response.value.roleId
                 }
             })
+
+            storeUserId(response.value.userId)
+            storeAccessToken(response.value.accessToken)
             navigate('/home')
         })
     }
@@ -117,7 +117,7 @@ export function SignIn() {
                         </>
                     }
                     <Button loading={loading} type="primary" htmlType="submit">
-                        Submit
+                        Sign In
                     </Button>
                 </Form.Item>
             </Form>

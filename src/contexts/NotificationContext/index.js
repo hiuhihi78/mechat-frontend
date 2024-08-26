@@ -10,6 +10,7 @@ function Notification({ children }) {
     const openNotification = (type = 'success', message = 'Notification', description = '', placement = 'bottomRight', className = '', style = {}) => {
         api[type]({
             type: type,
+            placement: placement,
             message: message,
             description: description,
             className: className,
