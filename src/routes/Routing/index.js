@@ -37,7 +37,7 @@ function Routing() {
     useEffect(() => {
         loading(true)
         if (user !== null) {
-            loading(false)
+            loading(false, 1000)
             return;
         }
 
@@ -45,7 +45,7 @@ function Routing() {
         var accessToken = getAccessToken()
         if (userId === null || userId === undefined ||
             accessToken === null || accessToken === undefined) {
-            loading(false)
+            loading(false, 1000)
             return;
         }
 
@@ -64,7 +64,7 @@ function Routing() {
                 }
             })
         }).finally(() => {
-            loading(false)
+            loading(false, 1000)
         })
 
     }, [user])

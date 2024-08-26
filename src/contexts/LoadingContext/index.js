@@ -8,8 +8,15 @@ function Loading({ children }) {
 
     const [loading, setLoading] = useState(false)
 
-    const openLoading = (open = false) => {
-        setLoading(open)
+    const openLoading = (open = false, time = 500) => {
+        if (open === true) {
+            setLoading(open)
+            return;
+        }
+        console.log(time)
+        setTimeout(() => {
+            setLoading(open)
+        }, time)
     }
 
     return (
