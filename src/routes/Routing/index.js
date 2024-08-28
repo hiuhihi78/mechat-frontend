@@ -67,10 +67,12 @@ function Routing() {
             loading(false, 1000)
         })
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
     useLayoutEffect(() => {
         getRoutesCanVisit()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
     let accessTokenCookieValue = undefined
