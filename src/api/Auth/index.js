@@ -6,6 +6,11 @@ export const signIn = (data) => {
     return apiPost(url, data)
 }
 
+export const signInByGoogle = (data) => {
+    const url = AUTH_END_POINT.SIG_IN_BY_GOOGLE
+    return apiPost(url, data)
+}
+
 export const refreshToken = () => {
 
 }

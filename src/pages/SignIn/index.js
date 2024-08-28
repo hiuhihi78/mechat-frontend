@@ -1,11 +1,12 @@
 import { useContext, useState } from 'react'
-import { signIn } from '~/api/Auth'
+import { signIn, signInByGoogle } from '~/api/Auth'
 import { RESULT_CODES } from '~/constants/ResultCode.constant.ts'
 import { useNavigate } from 'react-router-dom';
 
 import { useSignIn } from 'react-auth-kit';
 import { storeAccessToken, storeUserId } from '~/utils/cookie.util';
 import { LoadingContext } from '~/contexts/LoadingContext';
+import { GoogleLogin } from '@react-oauth/google';
 
 export function SignIn() {
 
@@ -20,7 +21,7 @@ export function SignIn() {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if(username === '' || password === ''){
+        if (username === '' || password === '') {
             setMessage('Please enter your username and password!');
             return;
         }
@@ -32,29 +33,46 @@ export function SignIn() {
         }
 
         signIn(data).then((response) => {
-
-            if (response.code !== RESULT_CODES.SUCCESS) {
-                setMessage(response.message)
-                return;
-            }
-
-            signInAuth({
-                token: '',
-                expiresIn: 10000,
-                //refresh: result.value.refreshToken,
-                authState: {
-                    userId: response.value.userId,
-                    fullname: response.value.fullname,
-                    roleId: response.value.roleId
-                }
-            })
-
-            storeUserId(response.value.userId)
-            storeAccessToken(response.value.accessToken)
-            navigate('/home')
-        }).finally(() =>{
+            handleSignIn(response)
+        }).finally(() => {
             loading(false)
         })
+    }
+
+    const handleSignInGoogleSuccess = (response) => {
+        var data = {
+            googleToken: response.credential
+        }
+        loading(true)
+
+        signInByGoogle(data).then((response) => {
+            handleSignIn(response)
+        })
+            .finally(() => {
+                loading(false)
+            })
+    }
+
+    const handleSignIn = (response) => {
+        if (response.code !== RESULT_CODES.SUCCESS) {
+            setMessage(response.message)
+            return;
+        }
+
+        signInAuth({
+            token: '',
+            expiresIn: 10000,
+            //refresh: result.value.refreshToken,
+            authState: {
+                userId: response.value.userId,
+                fullname: response.value.fullname,
+                roleId: response.value.roleId
+            }
+        })
+
+        storeUserId(response.value.userId)
+        storeAccessToken(response.value.accessToken)
+        navigate('/home')
     }
 
     return (
@@ -68,38 +86,38 @@ export function SignIn() {
                             <form className="mt-4" onSubmit={(e) => onSubmit(e)}>
                                 <div className="mb-3">
                                     <label className="mb-2 block text-xs font-semibold" htmlFor="username">Username</label>
-                                    <input 
+                                    <input
                                         type="text"
-                                        name='username' 
-                                        placeholder="Enter your username" 
-                                        className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500" 
+                                        name='username'
+                                        placeholder="Enter your username"
+                                        className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
                                         value={username}
-                                        onChange={(e) => {setUsername(e.target.value)}}
-                                        />
+                                        onChange={(e) => { setUsername(e.target.value) }}
+                                    />
                                 </div>
 
                                 <div className="mb-3">
                                     <label className="mb-2 block text-xs font-semibold" htmlFor='password'>Password</label>
-                                    <input 
-                                        type="password" 
+                                    <input
+                                        type="password"
                                         name='password'
-                                        placeholder="*****" 
-                                        className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500" 
+                                        placeholder="*****"
+                                        className="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500"
                                         value={password}
-                                        onChange={(e) => {setPassword(e.target.value)}}
+                                        onChange={(e) => { setPassword(e.target.value) }}
                                     />
                                 </div>
 
-                                {message === '' ? 
-                                    <></> 
-                                    : 
+                                {message === '' ?
+                                    <></>
+                                    :
                                     <div className="mb-3 flex flex-wrap content-center">
-                                        <i style={{color:'red', fontSize:'14px'}}>{message}</i>
+                                        <i style={{ color: 'red', fontSize: '14px' }}>{message}</i>
                                     </div>
                                 }
 
                                 <div className="mb-3 flex flex-wrap content-center">
-                                    <input id="remember" type="checkbox" className="mr-1 checked:bg-purple-700" name='remember'/> 
+                                    <input id="remember" type="checkbox" className="mr-1 checked:bg-purple-700" name='remember' />
                                     <label htmlFor='remember' className="mr-auto text-xs font-semibold">Remember for 30 days</label>
                                     <a href="fac" className="text-xs font-semibold text-purple-700" htmlFor='remember'>Forgot password?</a>
                                 </div>
@@ -108,10 +126,11 @@ export function SignIn() {
                                     <button className="mb-1.5 block w-full text-center text-white bg-purple-700 hover:bg-purple-900 px-2 py-1.5 rounded-md">
                                         Sign in
                                     </button>
-                                    <button className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
-                                        <img className="w-5 mr-2" src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt='' />
-                                        Sign in with Google
-                                    </button>
+                                    <GoogleLogin
+                                        onSuccess={handleSignInGoogleSuccess}
+                                        useOneTap
+                                        size='large'
+                                    />
                                 </div>
                             </form>
 
