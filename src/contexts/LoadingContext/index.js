@@ -13,7 +13,6 @@ function Loading({ children }) {
             setLoading(open)
             return;
         }
-        console.log(time)
         setTimeout(() => {
             setLoading(open)
         }, time)

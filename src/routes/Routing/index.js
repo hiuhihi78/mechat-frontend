@@ -9,6 +9,7 @@ import { getUserInfo } from "~/api/Auth";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import { LoadingContext } from "~/contexts/LoadingContext";
 import { APPLICATION } from "~/constants/Appication.constant.ts";
+import { ENPOINT } from "~/constants/Enpoint.constant.ts";
 
 function Routing() {
 
@@ -75,30 +76,18 @@ function Routing() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
-    let accessTokenCookieValue = undefined
-
     window.cookieStore.addEventListener("change", (event) => {
+        var currentUrl = window.location.href
+        if (currentUrl.includes(ENPOINT.SIGN_IN))
+            return;
 
-
-        for (const cookie of event.changed) {
-            if (cookie.name !== APPLICATION.ACCESS_TOKEN)
-                continue;
-
-            if (accessTokenCookieValue === undefined) {
-                accessTokenCookieValue = cookie.value
-                break;
-            }
-
-            if (accessTokenCookieValue !== cookie.value) {
+        event.deleted.forEach((cookie) => {
+            if (cookie.name === APPLICATION.ACCESS_TOKEN ||
+                cookie.name === APPLICATION.USER_ID
+            ) {
                 window.location.reload();
             }
-        }
-
-        for (const cookie of event.deleted) {
-            if (cookie.name === APPLICATION.ACCESS_TOKEN) {
-                window.location.reload();
-            }
-        }
+        });
     });
 
     return (

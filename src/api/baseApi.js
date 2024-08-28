@@ -42,11 +42,10 @@ export const apiPutAuth = async (url, data) => {
     return response
 }
 
-export const apiPost = async (url, data) => {
-    const response = axios.post(url, data)
+export const apiPost = async (url, data, option = {}) => {
+    const response = axios.post(url, data, option)
     return response
 }
-
 
 export const apiPostAuth = async (url, data) => {
     const response = axios.post(url, data, headerRequestAuth())

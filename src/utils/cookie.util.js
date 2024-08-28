@@ -6,7 +6,6 @@ export const getAccessToken = () => {
 }
 
 export const storeAccessToken = (accessToken) => {
-    Cookies.remove(APPLICATION.ACCESS_TOKEN)
     Cookies.set(APPLICATION.ACCESS_TOKEN, accessToken, { expires: APPLICATION.COOKIE_EXPRIES })
 }
 
@@ -15,7 +14,6 @@ export const getUserId = () => {
 }
 
 export const storeUserId = (userId) => {
-    Cookies.remove(APPLICATION.USER_ID)
     Cookies.set(APPLICATION.USER_ID, userId, { expires: APPLICATION.COOKIE_EXPRIES })
 }
 
@@ -24,8 +22,15 @@ export const getUserRoleId = () => {
 }
 
 export const storeUserRoleId = (roleId) => {
-    Cookies.remove(APPLICATION.USER_ROLE_ID)
     Cookies.set(APPLICATION.USER_ROLE_ID, roleId, { expires: APPLICATION.COOKIE_EXPRIES })
+}
+
+export const getRefreshToken = () => {
+    return Cookies.get(APPLICATION.REFESH_TOKEN)
+}
+
+export const storeRefreshToken = (refreshToken) => {
+    Cookies.set(APPLICATION.REFESH_TOKEN, refreshToken, { expires: APPLICATION.COOKIE_EXPRIES })
 }
 
 export const removeAllDataInCookie = () => {

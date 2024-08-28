@@ -5,6 +5,7 @@ import ContextContainer from '~/contexts/ContextContainer'
 import { InterceptorContainer } from "./interceptors/InterceptorContainer";
 import Routing from "./routes/Routing";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { handleRefreshToken } from "./utils/refreshToken";
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
@@ -14,8 +15,9 @@ function App() {
     <AuthProvider
       authType={'cookie'}
       authName={'_auth'}
-      //refresh={refreshToken}
+      refresh={handleRefreshToken}
       cookieDomain={window.location.hostname}
+      cookieSecure={window.location.protocol === "https://"}
     >
       <GoogleOAuthProvider
         clientId={GOOGLE_CLIENT_ID}

@@ -1,5 +1,6 @@
 import { apiGetAuth, apiPost } from "../baseApi"
 import { AUTH_END_POINT } from "./endpoints.ts"
+import { getUserId, getAccessToken } from "~/utils/cookie.util"
 
 export const signIn = (data) => {
     const url = AUTH_END_POINT.SIGN_IN
@@ -11,8 +12,17 @@ export const signInByGoogle = (data) => {
     return apiPost(url, data)
 }
 
-export const refreshToken = () => {
-
+export const refreshToken = (data) => {
+    const url = AUTH_END_POINT.REFESH_TOKEN
+    const userId = getUserId()
+    const accessToken = getAccessToken()
+    const option = {
+        headers: {
+            x_mechat_u_id: `${userId}`,
+            Authorization: `Bearer ${accessToken}`,
+        }
+    }
+    return apiPost(url, data, option)
 }
 
 export const getUserInfo = (id) => {

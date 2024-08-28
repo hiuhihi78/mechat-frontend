@@ -4,9 +4,9 @@ import { RESULT_CODES } from '~/constants/ResultCode.constant.ts'
 import { useNavigate } from 'react-router-dom';
 
 import { useSignIn } from 'react-auth-kit';
-import { storeAccessToken, storeUserId } from '~/utils/cookie.util';
+import { storeAccessToken, storeRefreshToken, storeUserId } from '~/utils/cookie.util';
 import { LoadingContext } from '~/contexts/LoadingContext';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
 
 export function SignIn() {
 
@@ -43,6 +43,7 @@ export function SignIn() {
         var data = {
             googleToken: response.credential
         }
+        googleLogout()
         loading(true)
 
         signInByGoogle(data).then((response) => {
@@ -58,18 +59,20 @@ export function SignIn() {
             setMessage(response.message)
             return;
         }
-
         signInAuth({
-            token: '',
+            token: response.value.accessToken,
             expiresIn: 10000,
-            //refresh: result.value.refreshToken,
+            tokenType: "Bearer",
             authState: {
                 userId: response.value.userId,
                 fullname: response.value.fullname,
                 roleId: response.value.roleId
-            }
+            },
+            refreshToken: response.value.refreshToken,
+            refreshTokenExpireIn: 10000,
         })
 
+        storeRefreshToken(response.value.refreshToken)
         storeUserId(response.value.userId)
         storeAccessToken(response.value.accessToken)
         navigate('/home')
