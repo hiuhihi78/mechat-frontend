@@ -29,3 +29,8 @@ export const getUserInfo = (id) => {
     const url = `${AUTH_END_POINT.USER_INFO}/${id}`
     return apiGetAuth(url)
 }
+
+export const signUp = (data) => {
+    const url = `${AUTH_END_POINT.SIGN_UP}`
+    return apiPost(url, data)
+}

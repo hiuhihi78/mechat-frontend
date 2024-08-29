@@ -4,7 +4,7 @@ import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom
 import routes from "../routes";
 import NotFound from "~/pages/NotFound";
 import { useAuthUser, useSignIn } from "react-auth-kit";
-import { getAccessToken, getUserId } from "~/utils/cookie.util";
+import { getAccessToken, getUserId, removeAllDataInCookie } from "~/utils/cookie.util";
 import { getUserInfo } from "~/api/Auth";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import { LoadingContext } from "~/contexts/LoadingContext";
@@ -64,9 +64,14 @@ function Routing() {
                     roleId: response.value.roleId
                 }
             })
-        }).finally(() => {
-            loading(false, 1000)
         })
+            .catch(() => {
+                //access token expired
+                removeAllDataInCookie();
+            })
+            .finally(() => {
+                loading(false, 1000)
+            })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])

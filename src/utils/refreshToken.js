@@ -2,8 +2,10 @@ import { createRefresh } from "react-auth-kit";
 import { refreshToken } from '~/api/Auth'
 import { getRefreshToken, storeRefreshToken, storeAccessToken } from "./cookie.util";
 
+const refreshTokenTime = process.env.REACT_APP_ACCESS_TOKEN_REFESH_TIME;
+
 export const handleRefreshToken = createRefresh({
-    interval: 1,
+    interval: refreshTokenTime,
     refreshApiCallback: async () => {
         var data = {
             refreshToken: getRefreshToken()

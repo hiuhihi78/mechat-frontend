@@ -7,6 +7,8 @@ import { useSignIn } from 'react-auth-kit';
 import { storeAccessToken, storeRefreshToken, storeUserId } from '~/utils/cookie.util';
 import { LoadingContext } from '~/contexts/LoadingContext';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { ENPOINT } from '~/constants/Enpoint.constant.ts';
+import { Button } from 'antd';
 
 export function SignIn() {
 
@@ -139,7 +141,12 @@ export function SignIn() {
 
                             <div className="text-center">
                                 <span className="text-xs text-gray-400 font-semibold">Don't have account?</span>
-                                <a href="fa" className="text-xs font-semibold text-purple-700">Sign up</a>
+                                <Button type='link'
+                                    onClick={() => navigate(ENPOINT.SIGN_UP)}
+                                    className="text-xs font-semibold text-purple-700"
+                                >
+                                    Sign up
+                                </Button>
                             </div>
                         </div>
                     </div>
