@@ -1,6 +1,8 @@
 
 import axios from 'axios'
 import { useContext } from 'react';
+
+import { HTTP_STATUS_CODE } from '~/constants/HttpStatusCode.constant.ts';
 import { NotificationContext } from '~/contexts/NotificationContext';
 
 export const ResponseInterceptor = ({ children }) => {
@@ -14,8 +16,13 @@ export const ResponseInterceptor = ({ children }) => {
     }, function (error) {
         // Any status codes that falls outside the range of 2xx cause this function to trigger
         // Do something with response error
+        console.log(error)
+        if (error.response.status === HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR) {
+            notification('error', 'Notification', 'Server error! Please comeback in tomorrow')
+        } else if (error.response.status === HTTP_STATUS_CODE.UNAUTHORIZED) {
+            notification('info', "Notification", 'Your session has been expried!')
+        }
 
-        notification('error', null, 'Server error! Please comeback in tomorrow')
         return error.response;
     });
 
