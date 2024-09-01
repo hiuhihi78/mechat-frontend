@@ -1,7 +1,6 @@
 import axios from "axios"
 import { getAccessToken } from "~/utils/cookie.util";
 
-axios.defaults.baseURL = `${process.env.REACT_APP_API_END_POINT}/api/${process.env.REACT_APP_API_VERSION}/`
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 const headerRequestAuth = () => {

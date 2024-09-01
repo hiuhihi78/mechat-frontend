@@ -27,7 +27,7 @@ function ConfirmSignUp() {
             .finally(() => {
                 setTimeout(() => {
                     setLoading(false)
-                }, 1000)
+                }, 5000)
             })
     }, [])
 
@@ -37,16 +37,17 @@ function ConfirmSignUp() {
                 <div className="flex shadow-md">
                     <div className="flex flex-wrap content-center justify-center rounded-l-md bg-white" style={{ width: "24rem", height: "32rem" }}>
                         <div className="w-72">
-                            <h1 className="mb-20 text-xl font-semibold">Me Chat</h1>
-
                             <>
                                 {(() => {
                                     if (loading) {
                                         return (
-                                            <div class="relative flex justify-center items-center">
-                                                <div class="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-purple-500"></div>
-                                                <img src="https://www.svgrepo.com/show/509001/avatar-thinking-9.svg" class="rounded-full h-28 w-28" alt="logo" />
-                                            </div>
+                                            <>
+                                                <div class="relative flex justify-center items-center">
+                                                    <div class="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-purple-500"></div>
+                                                    <img src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-1/444151048_3675983452660958_468097532445298241_n.jpg?stp=cp6_dst-jpg_s160x160&_nc_cat=100&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=wRPBeAZt0UEQ7kNvgEgAU2M&_nc_ht=scontent.fhan2-4.fna&oh=00_AYDyQtwGQ9DnHOWACfk5Yw9_vAexBjpsEmVXn8Y5UIzEcg&oe=66D9A4BC" class="rounded-full h-28 w-28" alt="logo" />
+                                                </div>
+                                                <p className="text-center mt-5">Loading...</p>
+                                            </>
                                         )
                                     }
                                 })()}
@@ -54,7 +55,7 @@ function ConfirmSignUp() {
 
                             <>
                                 {(() => {
-                                    if (message === '') {
+                                    if (message === '' && loading === false) {
                                         return (
                                             <>
                                                 <div class="relative p-4 text-center">
@@ -77,7 +78,7 @@ function ConfirmSignUp() {
                                         )
                                     } else {
                                         <>
-                                            <i className="text-red-500">{message}</i>
+                                            <i className="text-center text-red-500">{message}</i>
                                         </>
                                     }
                                 })()}
