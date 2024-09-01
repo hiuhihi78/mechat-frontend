@@ -34,3 +34,13 @@ export const signUp = (data) => {
     const url = `${AUTH_END_POINT.SIGN_UP}`
     return apiPost(url, data)
 }
+
+export const confrimSignUp = (accessToken) => {
+    const url = `${AUTH_END_POINT.CONFIRM_SIGN_UP}`
+    const option = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        }
+    }
+    return apiPost(url, null, option)
+}
