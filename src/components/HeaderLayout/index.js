@@ -50,7 +50,7 @@ function HeaderLayout() {
                 <Avatar
                     shape="square" size={'large'}
                     onClick={() => { navigate(ENPOINT.HOME) }}
-                    src='https://cdnphoto.dantri.com.vn/YAfcu9nd4T5dX06hhpaf19_QvY8=/thumb_w/960/2021/05/15/co-gai-noi-nhu-con-vi-anh-can-cuoc-xinh-nhu-mong-nhan-sac-ngoai-doi-con-bat-ngo-hon-2-1621075314070.jpg'
+                    src='https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/444151048_3675983452660958_468097532445298241_n.jpg?stp=cp6_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=wRPBeAZt0UEQ7kNvgEgAU2M&_nc_ht=scontent.fhan2-4.fna&oh=00_AYBjwXQnz2NTeURVP2ecf4tdItSijXOPhT0BR_LjMpgntA&oe=66D9C53E'
                 />
             </div>
             <div className={clsx(styles.menu)}>

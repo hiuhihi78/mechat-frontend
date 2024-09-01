@@ -1,6 +1,6 @@
 import { useAuthUser } from 'react-auth-kit';
 
-export function Home() {
+function Home() {
     const auth = useAuthUser()
     const user = auth()
 
@@ -12,3 +12,5 @@ export function Home() {
         </>
     )
 }
+
+export default Home;
