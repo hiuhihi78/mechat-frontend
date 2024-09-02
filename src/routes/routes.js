@@ -6,6 +6,7 @@ import MainLayout from "~/layouts/MainLayout";
 import SettingLayout from "~/layouts/SettingLayout";
 import ConfirmSignUp from "~/pages/ConfirmSignUp";
 import Home from "~/pages/Home";
+import ChangePassword from "~/pages/Setting/ChangePassword";
 import Profile from "~/pages/Setting/Profile";
 import { SignIn } from "~/pages/SignIn";
 import { SignUp } from "~/pages/SignUp";
@@ -45,22 +46,16 @@ const routes = [
     },
     {
         path: ENPOINT.SETTING_PROFILE,
-        component: <Profile />,
-        layout: <MainLayout><SettingLayout /></MainLayout>,
+        component: <SettingLayout><Profile /></SettingLayout>,
+        layout: <MainLayout />,
         roles: [ROLE.USER]
     },
     {
         path: ENPOINT.SETTING_CHANGE_PASSWORD,
-        component: <Profile />,
-        layout: <MainLayout><SettingLayout /></MainLayout>,
+        component: <SettingLayout><ChangePassword /></SettingLayout>,
+        layout: <MainLayout />,
         roles: [ROLE.USER]
     },
-    // {
-    //     path: ENPOINT.ADMIN,
-    //     component: <Admin />,
-    //     layout: <MainLayout />,
-    //     roles: [ROLE.ADMIN]
-    // }
 ]
 
 export default routes;

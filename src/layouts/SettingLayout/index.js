@@ -1,21 +1,18 @@
-import React from 'react';
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Outlet, Link } from "react-router-dom";
 import {
-    AppstoreOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    ShopOutlined,
-    TeamOutlined,
-    UploadOutlined,
     UserOutlined,
-    VideoCameraOutlined,
+    LockOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
-const { Header, Content, Footer, Sider } = Layout;
+import { Layout, Menu } from 'antd';
+
+import { ENPOINT } from '~/constants/Enpoint.constant.ts';
+
+
+const { Sider } = Layout;
 const siderStyle = {
     overflow: 'auto',
     height: '100vh',
-    position: 'fixed',
     insetInlineStart: 0,
     top: 0,
     bottom: 0,
@@ -23,64 +20,41 @@ const siderStyle = {
     scrollbarColor: 'unset',
 };
 const items = [
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    AppstoreOutlined,
-    TeamOutlined,
-    ShopOutlined,
-].map((icon, index) => ({
-    key: String(index + 1),
-    icon: React.createElement(icon),
-    label: `nav ${index + 1}`,
-}));
+    {
+        key: ENPOINT.SETTING_PROFILE,
+        icon: <UserOutlined />,
+        label: <Link to={ENPOINT.SETTING_PROFILE}>Profile</Link>
+    },
+    {
+        key: ENPOINT.SETTING_CHANGE_PASSWORD,
+        icon: <LockOutlined />,
+        label: <Link to={ENPOINT.SETTING_CHANGE_PASSWORD}>Change password</Link>
+    }
+]
+
 function SettingLayout() {
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
+
+    const href = window.location.href;
+
+    const [selected, setSelected] = useState(items[0].key)
+
+    useEffect(() => {
+        if (href.includes(ENPOINT.SETTING_PROFILE)) {
+            setSelected(items.find((x) => x.key === ENPOINT.SETTING_PROFILE))
+        } else if (href.includes(ENPOINT.SETTING_CHANGE_PASSWORD)) {
+            setSelected(items.find((x) => x.key === ENPOINT.SETTING_CHANGE_PASSWORD))
+        } else {
+            setSelected(items[0].key)
+        }
+    }, [href])
+
     return (
         <Layout hasSider>
-            <Sider style={siderStyle}>
-                <div className="demo-logo-vertical" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
+            <Sider style={siderStyle} theme='light'>
+                <Menu theme="light" mode="vertical" defaultSelectedKeys={[selected]} items={items} />
             </Sider>
-            <Layout
-                style={{
-                    marginInlineStart: 200,
-                }}
-            >
-                <Header
-                    style={{
-                        padding: 0,
-                        background: colorBgContainer,
-                    }}
-                />
-                <Content
-                    style={{
-                        margin: '24px 16px 0',
-                        overflow: 'initial',
-                    }}
-                >
-                    <div
-                        style={{
-                            padding: 24,
-                            textAlign: 'center',
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        <Outlet />
-                    </div>
-                </Content>
-                <Footer
-                    style={{
-                        textAlign: 'center',
-                    }}
-                >
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer>
+            <Layout>
+                <Outlet />
             </Layout>
         </Layout>
     );
