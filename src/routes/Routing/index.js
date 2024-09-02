@@ -23,10 +23,12 @@ function Routing() {
     const getRoutesCanVisit = useCallback(() => {
         setRoutesCanVisit([])
         routes.forEach((route) => {
-            if (route.role === undefined) {
+            if (route.roles === undefined) {
                 setRoutesCanVisit((prev) => [...prev, route])
             } else {
-                if (user.roleId === undefined)
+                if (user === undefined)
+                    return;
+                if (user?.roleId === undefined)
                     return;
                 if (route.roles.includes(user.roleId)) {
                     setRoutesCanVisit((prev) => [...prev, route])
@@ -79,6 +81,8 @@ function Routing() {
         getRoutesCanVisit()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
+
+    console.log('render')
 
     window.cookieStore.addEventListener("change", (event) => {
         var currentUrl = window.location.href
