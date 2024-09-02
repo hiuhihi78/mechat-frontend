@@ -3,7 +3,14 @@ import { useAuthUser } from 'react-auth-kit';
 import { Button, Dropdown, Avatar, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightToBracket, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import {
+    faRightToBracket,
+    faUserPlus,
+    faUser,
+    faGear
+}
+    from '@fortawesome/free-solid-svg-icons'
+import { Link } from "react-router-dom";
 
 import styles from "./HeaderLayout.module.scss"
 import { useNavigate } from 'react-router-dom';
@@ -15,17 +22,19 @@ const items = [
     {
         key: '1',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                1st menu item
-            </a>
+            <Link to={ENPOINT.SETTING_PROFILE}>
+                <FontAwesomeIcon icon={faUser} className='mr-2' />
+                <span>Profile</span>
+            </Link>
         ),
     },
     {
         key: '2',
         label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
+            <Link to={ENPOINT.SETTING_PROFILE}>
+                <FontAwesomeIcon icon={faGear} className='mr-2' />
+                <span>Setting</span>
+            </Link>
         ),
     },
     {

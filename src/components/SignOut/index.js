@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useSignOut } from 'react-auth-kit';
-import { Button } from 'antd';
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
+
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';
 import { removeAllDataInCookie } from "~/utils/cookie.util"
 
@@ -16,7 +19,12 @@ function SignOut() {
 
     return (
         <>
-            <Button type="text" className='pl-5 pr-5' onClick={clickSignOutButton}>Log out</Button>
+            <Link to={ENPOINT.SETTING} onClick={clickSignOutButton}>
+                <div className='text-red-500'>
+                    <FontAwesomeIcon icon={faRightFromBracket} className='mr-2' />
+                    <b>Logout</b>
+                </div>
+            </Link>
         </>
     );
 }
