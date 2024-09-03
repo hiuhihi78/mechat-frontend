@@ -70,7 +70,8 @@ export function SignIn() {
             authState: {
                 userId: response.value.userId,
                 fullname: response.value.fullname,
-                roleId: response.value.roleId
+                roleId: response.value.roleId,
+                avatar: response.value.avatar
             },
             refreshToken: response.value.refreshToken,
             refreshTokenExpireIn: 10000,

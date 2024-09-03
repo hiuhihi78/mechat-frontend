@@ -92,7 +92,12 @@ function HeaderLayout() {
                                     styles={{ minWidth: '40px' }}
                                 >
                                     <Space>
-                                        <Avatar size="default" icon={<UserOutlined />} />
+                                        {user.avatar === '' ?
+                                            <Avatar size="default" icon={<UserOutlined />} />
+                                            :
+                                            <Avatar size="default" src={user.avatar} />
+                                        }
+
                                         <p>{user?.fullname}</p>
                                     </Space>
                                 </Dropdown>

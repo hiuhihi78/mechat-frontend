@@ -20,6 +20,7 @@
     "clsx": "^2.1.1",
     "customize-cra": "^1.0.0",
     "env-cmd": "^10.1.0",
+    "filereader": "^0.10.3",
     "js-cookie": "^3.0.5",
     "postcss": "^8.4.41",
     "react": "^18.3.1",

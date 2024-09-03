@@ -7,5 +7,11 @@
             ]
         },
         "allowImportingTsExtensions": true
-    }
+    },
+    "eslint.rules.customizations": [
+        {
+            "rule": "react-hooks/exhaustive-deps",
+            "severity": "off"
+        }
+    ]
 }
