@@ -82,8 +82,6 @@ function Routing() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
-    console.log('render')
-
     window.cookieStore.addEventListener("change", (event) => {
         var currentUrl = window.location.href
         if (currentUrl.includes(ENPOINT.SIGN_IN))
