@@ -19,17 +19,17 @@ import SignOut from '../SignOut';
 
 
 const items = [
+    // {
+    //     key: '1',
+    //     label: (
+    //         <Link to={ENPOINT.SETTING_PROFILE}>
+    //             <FontAwesomeIcon icon={faUser} className='mr-2' />
+    //             <span>Profile</span>
+    //         </Link>
+    //     ),
+    // },
     {
         key: '1',
-        label: (
-            <Link to={ENPOINT.SETTING_PROFILE}>
-                <FontAwesomeIcon icon={faUser} className='mr-2' />
-                <span>Profile</span>
-            </Link>
-        ),
-    },
-    {
-        key: '2',
         label: (
             <Link to={ENPOINT.SETTING_PROFILE}>
                 <FontAwesomeIcon icon={faGear} className='mr-2' />

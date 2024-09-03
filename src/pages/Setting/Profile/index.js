@@ -1,5 +1,11 @@
+
+
 function Profile() {
-    return (<>Profile</>);
+    return (
+        <>
+
+        </>
+    );
 }
 
 export default Profile;
