@@ -1,12 +1,12 @@
-import { useCallback, useState, useLayoutEffect, useEffect, useContext } from "react";
+import { useCallback, useState, useEffect, useContext } from "react";
 import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import routes from "../routes";
 import NotFound from "~/pages/NotFound";
-import { useAuthUser, useSignIn } from "react-auth-kit";
+import { useAuthUser, useSignIn, useSignOut } from "react-auth-kit";
 import { getAccessToken, getUserId, removeAllDataInCookie } from "~/utils/cookie.util";
 import { getUserInfo } from "~/api/Auth";
-import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
+import { RESULT_CODES } from "~/constants/resultCode.constant.ts";
 import { LoadingContext } from "~/contexts/LoadingContext";
 import { APPLICATION } from "~/constants/Appication.constant.ts";
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
@@ -15,6 +15,7 @@ function Routing() {
 
     const loading = useContext(LoadingContext)
     const signInAuth = useSignIn();
+    const signOut = useSignOut()
     const auth = useAuthUser()
     const user = auth()
 
@@ -38,22 +39,22 @@ function Routing() {
     }, [user]);
 
     useEffect(() => {
-        if (user !== null) {
-            loading(false, 1000)
-            return;
-        }
-
+        loading(true)
         var userId = getUserId()
         var accessToken = getAccessToken()
         if (userId === null || userId === undefined ||
             accessToken === null || accessToken === undefined) {
+            signOut()
+            loading(false)
             return;
         }
 
-        loading(true)
         getUserInfo(userId).then((response) => {
-            if (response.code !== RESULT_CODES.SUCCESS)
+            if (response.code !== RESULT_CODES.SUCCESS) {
+                signOut()
+                loading(false)
                 return;
+            }
 
             signInAuth({
                 token: '',
@@ -77,7 +78,7 @@ function Routing() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         getRoutesCanVisit()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
