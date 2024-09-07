@@ -80,7 +80,7 @@ export function SignIn() {
         storeRefreshToken(response.value.refreshToken)
         storeUserId(response.value.userId)
         storeAccessToken(response.value.accessToken)
-        navigate('/home')
+        navigate(ENPOINT.HOME)
     }
 
     return (

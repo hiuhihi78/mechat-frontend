@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faRightToBracket,
     faUserPlus,
-    faUser,
     faGear
 }
     from '@fortawesome/free-solid-svg-icons'
@@ -59,7 +58,7 @@ function HeaderLayout() {
                 <Avatar
                     shape="square" size={'large'}
                     onClick={() => { navigate(ENPOINT.HOME) }}
-                    src='https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/444151048_3675983452660958_468097532445298241_n.jpg?stp=cp6_dst-jpg&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=wRPBeAZt0UEQ7kNvgEgAU2M&_nc_ht=scontent.fhan2-4.fna&oh=00_AYBjwXQnz2NTeURVP2ecf4tdItSijXOPhT0BR_LjMpgntA&oe=66D9C53E'
+                    src='https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/457752325_1702887640469218_3857779335270403849_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=f727a1&_nc_ohc=4bAfZh-8d7MQ7kNvgFjec7e&_nc_ht=scontent.fhan2-4.fna&oh=00_AYB_KFXirMVamQnFFaigIllV-BkgR7KJunLS4gCY5ldWUw&oe=66E19E7D'
                 />
             </div>
             <div className={clsx(styles.menu)}>

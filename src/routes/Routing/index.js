@@ -3,10 +3,9 @@ import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom
 
 import routes from "../routes";
 import NotFound from "~/pages/NotFound";
-import { useAuthUser, useSignIn, useSignOut } from "react-auth-kit";
+import { useAuthUser, useSignIn } from "react-auth-kit";
 import { getAccessToken, getUserId, removeAllDataInCookie } from "~/utils/cookie.util";
 import { getUserInfo } from "~/api/Auth";
-import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import { LoadingContext } from "~/contexts/LoadingContext";
 import { APPLICATION } from "~/constants/Appication.constant.ts";
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
@@ -14,8 +13,7 @@ import { ENPOINT } from "~/constants/Enpoint.constant.ts";
 function Routing() {
 
     const loading = useContext(LoadingContext)
-    const signInAuth = useSignIn();
-    const signOut = useSignOut()
+    const signInAuth = useSignIn()
     const auth = useAuthUser()
     const user = auth()
 
@@ -39,49 +37,45 @@ function Routing() {
     }, [user]);
 
     useEffect(() => {
+
         loading(true)
         var userId = getUserId()
         var accessToken = getAccessToken()
         if (userId === null || userId === undefined ||
             accessToken === null || accessToken === undefined) {
-            signOut()
             loading(false)
             return;
         }
 
-        getUserInfo(userId).then((response) => {
-            if (response.code !== RESULT_CODES.SUCCESS) {
-                signOut()
-                loading(false)
-                return;
-            }
-
-            signInAuth({
-                token: '',
-                expiresIn: 10000,
-                //refresh: result.value.refreshToken,
-                authState: {
-                    userId: response.value.userId,
-                    fullname: response.value.fullname,
-                    roleId: response.value.roleId
-                }
+        getUserInfo(userId)
+            .then((response) => {
+                signInAuth({
+                    token: 'not have meaning',
+                    expiresIn: 10000,
+                    tokenType: "Bearer",
+                    authState: {
+                        userId: response.value.userId,
+                        fullname: response.value.fullname,
+                        roleId: response.value.roleId,
+                        avatar: response.value.avatar
+                    },
+                    refreshToken: 'not have meaning',
+                    refreshTokenExpireIn: 10000,
+                })
             })
-        })
             .catch(() => {
-                //access token expired
                 removeAllDataInCookie();
             })
             .finally(() => {
                 loading(false, 1000)
             })
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user])
+    }, [])
 
     useEffect(() => {
         getRoutesCanVisit()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user])
+    }, [])
 
     window.cookieStore.addEventListener("change", (event) => {
         var currentUrl = window.location.href

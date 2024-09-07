@@ -1,15 +1,12 @@
 
 import axios from 'axios'
 import { useContext } from 'react';
-import { useSignOut } from 'react-auth-kit';
-import { ENPOINT } from '~/constants/Enpoint.constant.ts';
 
 import { HTTP_STATUS_CODE } from '~/constants/HttpStatusCode.constant.ts';
 import { NotificationContext } from '~/contexts/NotificationContext';
+import { removeAllDataInCookie } from '~/utils/cookie.util';
 
 export const ResponseInterceptor = ({ children }) => {
-
-    const signOut = useSignOut()
 
     const notification = useContext(NotificationContext)
 
@@ -28,8 +25,8 @@ export const ResponseInterceptor = ({ children }) => {
             notification('error', 'Notification', 'Server error! Please comeback in tomorrow')
         } else if (error.response.status === HTTP_STATUS_CODE.UNAUTHORIZED) {
             notification('info', "Notification", 'Your session has been expried!')
-            signOut();
-            window.location.href = ENPOINT.HOME
+            removeAllDataInCookie();
+            window.location.reload()
             return error;
         } else if (error.response.status === HTTP_STATUS_CODE.NOT_FOUND) {
             notification('error', 'Notification', 'Server error! Please comeback in tomorrow')

@@ -38,4 +38,5 @@ export const removeAllDataInCookie = () => {
     Cookies.remove(APPLICATION.ACCESS_TOKEN)
     Cookies.remove(APPLICATION.REFESH_TOKEN)
     Cookies.remove(APPLICATION.USER_ROLE_ID)
+    Cookies.remove("_auth_state")
 }
