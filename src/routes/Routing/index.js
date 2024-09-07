@@ -6,7 +6,7 @@ import NotFound from "~/pages/NotFound";
 import { useAuthUser, useSignIn, useSignOut } from "react-auth-kit";
 import { getAccessToken, getUserId, removeAllDataInCookie } from "~/utils/cookie.util";
 import { getUserInfo } from "~/api/Auth";
-import { RESULT_CODES } from "~/constants/resultCode.constant.ts";
+import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import { LoadingContext } from "~/contexts/LoadingContext";
 import { APPLICATION } from "~/constants/Appication.constant.ts";
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
