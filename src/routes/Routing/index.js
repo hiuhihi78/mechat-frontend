@@ -75,7 +75,7 @@ function Routing() {
     useEffect(() => {
         getRoutesCanVisit()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [user])
 
     window.cookieStore.addEventListener("change", (event) => {
         var currentUrl = window.location.href
