@@ -1,17 +1,19 @@
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
-import { Image, Space, Form, Input, Button, Row, Col, Upload, Avatar, Flex } from "antd";
+import { Space, Form, Input, Button, Row, Col, Upload, Avatar, Flex, Modal } from "antd";
 import { EditOutlined, UploadOutlined } from '@ant-design/icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
-
-import { getUser } from "~/api/User";
+import { updateUserInfo, getUser } from "~/api/User";
 import { LoadingContext } from "~/contexts/LoadingContext";
-import styles from "./Profile.module.scss"
-import clsx from "clsx";
 import defaultImage from '~/assets/default-image.png'
 import { getBase64 } from "~/utils/file.util";
+import { NotificationContext } from "~/contexts/NotificationContext";
+import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
+
+const { confirm } = Modal;
 
 function Profile() {
 
@@ -19,6 +21,7 @@ function Profile() {
     const user = auth()
     const [formUserInfo] = Form.useForm();
     const loading = useContext(LoadingContext)
+    const notification = useContext(NotificationContext);
 
     const [userInfo, setUserInfo] = useState({})
     const [userInfoBeforeChange, setUserInfoBeforeChange] = useState({})
@@ -49,6 +52,7 @@ function Profile() {
     }, [])
 
     const handleCancleEdit = () => {
+        formUserInfo.resetFields()
         setEnableEdit(false)
         setUserInfo({ ...userInfoBeforeChange })
         setAvatar(userInfoBeforeChange.avatar)
@@ -56,9 +60,58 @@ function Profile() {
 
     const handleChangeAvatar = async (info) => {
         var imgBase64 = await getBase64(info.file.originFileObj)
-        console.log(imgBase64)
         setAvatar(imgBase64)
     }
+
+    const showConfirmEditProfile = () => {
+        var errors = formUserInfo.getFieldsError().find(x => x.errors.length > 0)?.errors;
+        if (errors?.length !== undefined) {
+            notification('error', 'Thông báo', errors[0])
+            return;
+        }
+        confirm({
+            title: 'Thông báo',
+            icon: <ExclamationCircleFilled />,
+            content: 'Bạn có chắc chắn thay đổi không?',
+            okText: 'Đồng ý',
+            onOk() {
+                setTimeout(() => {
+                    handleEditUserInfo()
+                }, 500)
+            },
+            okCancel: 'Hủy',
+        });
+    };
+
+    const handleEditUserInfo = () => {
+        formUserInfo.submit()
+        var data = {
+            fullname: formUserInfo.getFieldValue('fullname'),
+            avatar: formUserInfo.getFieldValue('avatar')?.file?.originFileObj ?? null
+        }
+        loading(true)
+        updateUserInfo(user.userId, data)
+            .then((response) => {
+                if (response.code !== RESULT_CODES.SUCCESS) {
+                    notification("error", response.message)
+                } else {
+                    notification("success", "Thay đổi thông tin cá nhân thành công!")
+                    setUserInfoBeforeChange({
+                        ...userInfoBeforeChange,
+                        fullname: data.fullname,
+                        avatar: (avatar === userInfoBeforeChange.avatar) ? userInfoBeforeChange.avatar : avatar
+                    })
+                    setEnableEdit(false)
+                }
+            })
+            .catch(() => {
+                loading(false)
+            })
+            .finally(() => {
+                loading(false)
+            })
+    }
+
 
     return (
         <>
@@ -82,7 +135,7 @@ function Profile() {
                                     >
                                         <FontAwesomeIcon icon={faXmark} /> Hủy
                                     </Button>
-                                    <Button type="primary" danger ghost>
+                                    <Button type="primary" onClick={showConfirmEditProfile} danger ghost>
                                         <FontAwesomeIcon icon={faCheck} /> Xác nhận
                                     </Button>
                                 </Space>
@@ -96,11 +149,22 @@ function Profile() {
                 labelCol={{
                     flex: '110px',
                 }}
-                initialValues={userInfo}
+                initialValues={
+                    {
+                        fullname: userInfo.fullname,
+                    }
+                }
             >
                 <Row>
                     <Col span={15} offset={2}>
-                        <Form.Item name='fullName' label="Họ và tên" labelAlign="left"
+                        <Form.Item
+                            name='fullname'
+                            label="Họ và tên"
+                            labelAlign="left"
+                            rules={[{
+                                required: true,
+                                message: 'Tên của bạn không được bỏ trống',
+                            }]}
                         >
                             <Row gutter={8}>
                                 <Col span={17}>
@@ -144,7 +208,11 @@ function Profile() {
                                 className="mb-5"
                             />
                             {enableEdit === true ?
-                                <Form.Item name='fileUpload' required style={{ width: '100%', textAlign: 'center' }}>
+                                <Form.Item
+                                    name='avatar'
+                                    required
+                                    style={{ width: '100%', textAlign: 'center' }}
+                                >
                                     <Upload
                                         showUploadList={false}
                                         maxCount={2}
@@ -162,34 +230,6 @@ function Profile() {
                     </Col>
                 </Row >
             </Form>
-
-            {/* <Form
-                layout="vertical"
-                            className={clsx(styles.container)}
-            >
-                            <div className={clsx(styles.avatar)}>
-                                <Image
-                                    width={200}
-                                    height={200}
-                                    src={userInfo?.avatar}
-                                    fallback={defaultImage}
-                                />
-                            </div>
-                            <div className={clsx(styles.info)}>
-                                <Form.Item label="Tên người dùng">
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item label="Tên đăng nhập">
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item label="Email">
-                                    <Input />
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button type="primary">Submit</Button>
-                                </Form.Item>
-                            </div>
-                        </Form> */}
         </>
     );
 }
