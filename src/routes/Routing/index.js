@@ -55,6 +55,7 @@ function Routing() {
                     tokenType: "Bearer",
                     authState: {
                         userId: response.value.userId,
+                        username: response.value.userName,
                         fullname: response.value.fullname,
                         roleId: response.value.roleId,
                         avatar: response.value.avatar

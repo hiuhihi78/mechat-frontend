@@ -1,5 +1,5 @@
 import { USER_END_POINT } from "./endpoints.ts"
-import { apiGetAuth, apiPutAuthForm } from "../baseApi"
+import { apiGetAuth, apiPutAuth, apiPutAuthForm } from "../baseApi"
 
 
 export const getUser = (id) => {
@@ -8,7 +8,11 @@ export const getUser = (id) => {
 }
 
 export const updateUserInfo = (id, data) => {
-    console.log(data)
     var url = `${USER_END_POINT.UPDATE_USER_INFO}/${id}`
     return apiPutAuthForm(url, data)
+}
+
+export const updateUserPassword = (id, data) => {
+    var url = `${USER_END_POINT.UPDATE_USER_PASSWORD}/${id}`
+    return apiPutAuth(url, data)
 }

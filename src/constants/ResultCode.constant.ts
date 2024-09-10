@@ -6,5 +6,6 @@ export enum RESULT_CODES {
     UN_AUTHORIZED = "04",
     UN_AUTHENTICATION = "05",
 
-    USER_BANNED = "1001"
+    USER_BANNED = "1001",
+    WRONG_PASSWORD = "2001"
 }

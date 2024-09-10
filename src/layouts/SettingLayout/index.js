@@ -22,16 +22,14 @@ const siderStyle = {
 };
 const items = [
     {
-        title: 'Profile',
+        title: <><UserOutlined /> Thông tin cá nhân</>,
         key: ENPOINT.SETTING_PROFILE,
-        icon: <UserOutlined />,
-        label: <Link to={ENPOINT.SETTING_PROFILE}>Profile</Link>,
+        label: <Link to={ENPOINT.SETTING_PROFILE}><UserOutlined /> Thông tin cá nhân</Link>,
     },
     {
-        title: 'Change password',
+        title: <><LockOutlined /> Tài khoản & mật khẩu</>,
         key: ENPOINT.SETTING_CHANGE_PASSWORD,
-        icon: <LockOutlined />,
-        label: <Link to={ENPOINT.SETTING_CHANGE_PASSWORD}>Change password</Link>,
+        label: <Link to={ENPOINT.SETTING_CHANGE_PASSWORD}> <LockOutlined /> Tài khoản & mật khẩu</Link>,
     }
 ]
 

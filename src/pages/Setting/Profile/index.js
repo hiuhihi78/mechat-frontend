@@ -75,9 +75,7 @@ function Profile() {
             content: 'Bạn có chắc chắn thay đổi không?',
             okText: 'Đồng ý',
             onOk() {
-                setTimeout(() => {
-                    handleEditUserInfo()
-                }, 500)
+                handleEditUserInfo()
             },
             okCancel: 'Hủy',
         });
