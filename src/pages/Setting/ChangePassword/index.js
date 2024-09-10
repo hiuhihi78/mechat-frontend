@@ -128,7 +128,7 @@ function ChangePassword() {
                             labelAlign="left"
                             validateTrigger="onBlur"
                             rules={[{
-                                required: isUsernameExisted,
+                                required: !isUsernameExisted,
                                 message: 'Tên đăng nhập của bạn không được bỏ trống!',
                             }]}
                         >
@@ -136,7 +136,7 @@ function ChangePassword() {
                                 <Col span={17}>
                                     <Input
                                         value={userInfo?.username}
-                                        disabled={!isUsernameExisted}
+                                        disabled={isUsernameExisted}
                                         onChange={(e) => setUserInfo({ ...userInfo, username: e.target.value })}
                                         placeholder="Nhập tên đăng nhập của bạn!"
                                     />
