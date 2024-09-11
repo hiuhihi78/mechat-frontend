@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 import { useAuthUser } from "react-auth-kit";
 
 import styles from "./Profile.module.scss"
 import HeaderProfile from "./HeaderProfile";
-import { getUser } from "~/api/User";
+import { getUserPublicInfo } from "~/api/User";
 import { LoadingContext } from "~/contexts/LoadingContext";
 import { NotificationContext } from "~/contexts/NotificationContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
@@ -22,9 +22,9 @@ function Profile() {
 
     const [userInfo, setUserInfo] = useState({})
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         loading(true)
-        getUser(user?.userId)
+        getUserPublicInfo(id)
             .then((response) => {
                 if (response.code !== RESULT_CODES.SUCCESS) {
                     notification('error', 'Hệ thống đang gặp lỗi!')
@@ -36,9 +36,9 @@ function Profile() {
                     userId: data.id,
                     email: data.email,
                     avatar: data.avatar,
-                    fullname: data.fullname,
+                    fullname: data.fullName,
                     username: data.username,
-                    isViewMyProfile: data.id === user?.userId
+                    isViewMyProfile: id === user?.userId
                 })
             })
             .catch(() => {

@@ -16,34 +16,10 @@ import styles from "./HeaderLayout.module.scss"
 import { useNavigate } from 'react-router-dom';
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';
 import SignOut from '../SignOut';
+import { getUserId } from '~/utils/cookie.util';
 
 
-const items = [
-    {
-        key: '1',
-        label: (
-            <Link to={ENPOINT.PROFILE}>
-                <FontAwesomeIcon icon={faUser} className='mr-2' />
-                <span>Profile</span>
-            </Link>
-        ),
-    },
-    {
-        key: '2',
-        label: (
-            <Link to={ENPOINT.SETTING_PROFILE}>
-                <FontAwesomeIcon icon={faGear} className='mr-2' />
-                <span>Setting</span>
-            </Link>
-        ),
-    },
-    {
-        key: '3',
-        label: (
-            <SignOut />
-        ),
-    },
-];
+
 
 
 function HeaderLayout() {
@@ -52,6 +28,33 @@ function HeaderLayout() {
     const user = auth();
 
     const navigate = useNavigate();
+
+    const items = [
+        {
+            key: '1',
+            label: (
+                <Link to={ENPOINT.PROFILE.replace(':id', user?.userId)}>
+                    <FontAwesomeIcon icon={faUser} className='mr-2' />
+                    <span>Profile</span>
+                </Link>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <Link to={ENPOINT.SETTING_PROFILE}>
+                    <FontAwesomeIcon icon={faGear} className='mr-2' />
+                    <span>Setting</span>
+                </Link>
+            ),
+        },
+        {
+            key: '3',
+            label: (
+                <SignOut />
+            ),
+        },
+    ];
 
     return (
         <div className={clsx(styles.header)}>

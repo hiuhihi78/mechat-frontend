@@ -7,7 +7,7 @@ export enum ENPOINT {
     CONFIRM_SIGN_UP = '/confirmSignUp',
     NOT_FOUND = '/notfound',
     ADMIN = '/admin',
-    PROFILE = '/profile',
+    PROFILE = '/profile/:id',
     //#endregion
 
     //#region User setting

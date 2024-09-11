@@ -23,15 +23,15 @@ function HeaderProfile({ user, children }) {
     const [srcAvatar, setSrcAvatar] = useState(userAvatarDefault)
 
     useEffect(() => {
+        console.log(user)
         if (user?.coverPhoto !== undefined)
             setSrcCoverPhoto(user.coverPhoto)
 
-        if (user?.avatar !== undefined)
+        if (user?.avatar !== undefined) {
             setSrcAvatar(user.avatar)
-
-
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [user])
 
     return (
         <div className={clsx(styles['container'])}>
@@ -80,13 +80,27 @@ function HeaderProfile({ user, children }) {
                         className={clsx(styles['container-buttons-user'])}
                     >
                         <Flex justify="flex-end" align="flex-start">
-                            <Button type="default"
-                                className={clsx(styles['update-info-button'])}
-                                onClick={() => { navigate(ENPOINT.SETTING_PROFILE) }}
-                            >
-                                <FontAwesomeIcon icon={faPencil} />
-                                Chỉnh sửa thông tin cá nhân
-                            </Button>
+
+
+                            {(() => {
+                                if (user.isViewMyProfile) {
+                                    return (
+                                        <>
+                                            <Button type="default"
+                                                className={clsx(styles['update-info-button'])}
+                                                onClick={() => { navigate(ENPOINT.SETTING_PROFILE) }}
+                                            >
+                                                <FontAwesomeIcon icon={faPencil} />
+                                                Chỉnh sửa thông tin cá nhân
+                                            </Button>
+                                        </>
+                                    )
+                                } else {
+                                    return (
+                                        <></>
+                                    )
+                                }
+                            })()}
                         </Flex>
                     </div
                     >
