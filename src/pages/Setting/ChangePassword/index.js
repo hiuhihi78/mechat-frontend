@@ -77,6 +77,10 @@ function ChangePassword() {
                     return;
                 } else if (response.code === RESULT_CODES.VALIDATION_ERROR) {
                     setMessage('Thông tin chưa đúng format!')
+                    return;
+                } else if (response.code === RESULT_CODES.USERNAME_EXISTED) {
+                    setMessage('Tên đăng nhập đã tồn tại! Vui lòng nhập tên đăng nhập khác!')
+                    return;
                 } else if (response.code === RESULT_CODES.SUCCESS) {
                     loading(false)
                     confirm({
