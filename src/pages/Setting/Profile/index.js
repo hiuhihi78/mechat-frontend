@@ -15,7 +15,7 @@ import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 
 const { confirm } = Modal;
 
-function Profile() {
+export function Profile() {
 
     const auth = useAuthUser()
     const user = auth()
@@ -231,5 +231,3 @@ function Profile() {
         </>
     );
 }
-
-export default Profile;

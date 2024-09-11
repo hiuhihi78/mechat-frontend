@@ -1,4 +1,5 @@
 export enum ENPOINT {
+    //#region Common
     EMPTY = '',
     HOME = '/home',
     SIGN_IN = '/signIn',
@@ -6,7 +7,12 @@ export enum ENPOINT {
     CONFIRM_SIGN_UP = '/confirmSignUp',
     NOT_FOUND = '/notfound',
     ADMIN = '/admin',
+    PROFILE = '/profile',
+    //#endregion
+
+    //#region User setting
     SETTING = "/setting",
     SETTING_PROFILE = `${ENPOINT.SETTING}/profile`,
     SETTING_CHANGE_PASSWORD = `${ENPOINT.SETTING}/changePassword`
+    //#endregion
 }

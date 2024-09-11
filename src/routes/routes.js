@@ -7,12 +7,14 @@ import SettingLayout from "~/layouts/SettingLayout";
 import ConfirmSignUp from "~/pages/ConfirmSignUp";
 import Home from "~/pages/Home";
 import ChangePassword from "~/pages/Setting/ChangePassword";
-import Profile from "~/pages/Setting/Profile";
+import { Profile as SettingProfile } from "~/pages/Setting/Profile";
+import Profile from "~/pages/Profile";
 import { SignIn } from "~/pages/SignIn";
 import { SignUp } from "~/pages/SignUp";
 
 
 const routes = [
+    //#endregion Common
     {
         path: ENPOINT.EMPTY,
         component: <Home />,
@@ -39,14 +41,27 @@ const routes = [
         layout: <EmptyLayout />
     },
     {
+        path: ENPOINT.CONFIRM_SIGN_UP,
+        component: <ConfirmSignUp />,
+        layout: <EmptyLayout />
+    },
+    {
+        path: ENPOINT.PROFILE,
+        component: <Profile />,
+        layout: <MainLayout />
+    },
+    //#endregion
+
+    //#region User setting
+    {
         path: ENPOINT.SETTING,
-        component: <SettingLayout><Profile /></SettingLayout>,
+        component: <SettingLayout><SettingProfile /></SettingLayout>,
         layout: <MainLayout />,
         roles: [ROLE.USER]
     },
     {
         path: ENPOINT.SETTING_PROFILE,
-        component: <SettingLayout><Profile /></SettingLayout>,
+        component: <SettingLayout><SettingProfile /></SettingLayout>,
         layout: <MainLayout />,
         roles: [ROLE.USER]
     },
@@ -56,6 +71,7 @@ const routes = [
         layout: <MainLayout />,
         roles: [ROLE.USER]
     },
+    //#endregion
 ]
 
 export default routes;
