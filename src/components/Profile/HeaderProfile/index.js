@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import {
-    faPencil
+    faPencil,
+    faUserPlus
 } from '@fortawesome/free-solid-svg-icons'
 import { Avatar, Space, Tooltip, Flex, Button } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -11,27 +12,37 @@ import styles from "./HeaderProfile.module.scss"
 import userCoverImageDefault from '~/assets/user-cover-image-default.png'
 import userAvatarDefault from '~/assets/user-avatar-default.png'
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
+import { useAuthUser } from "react-auth-kit";
+import HeaderProfileFriendButtons from "../HeaderProfileFriendButtons";
 
 
 
 function HeaderProfile({ user, children }) {
 
 
+    const auth = useAuthUser()
+    const currentUser = auth()
     const navigate = useNavigate()
 
+    const [isViewMyProfile, setIsViewMyProfile] = useState(false)
     const [srcCoverPhoto, setSrcCoverPhoto] = useState(userCoverImageDefault)
     const [srcAvatar, setSrcAvatar] = useState(userAvatarDefault)
 
     useEffect(() => {
-        console.log(user)
-        if (user?.coverPhoto !== undefined)
+        if (currentUser !== null && currentUser.userId === user.userId) {
+            setIsViewMyProfile(true)
+        }
+
+        if (user.coverPhoto !== undefined)
             setSrcCoverPhoto(user.coverPhoto)
 
-        if (user?.avatar !== undefined) {
+        if (user.avatar !== undefined) {
             setSrcAvatar(user.avatar)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
+
+    console.log(srcAvatar)
 
     return (
         <div className={clsx(styles['container'])}>
@@ -80,10 +91,8 @@ function HeaderProfile({ user, children }) {
                         className={clsx(styles['container-buttons-user'])}
                     >
                         <Flex justify="flex-end" align="flex-start">
-
-
                             {(() => {
-                                if (user.isViewMyProfile) {
+                                if (isViewMyProfile) {
                                     return (
                                         <>
                                             <Button type="default"
@@ -97,7 +106,7 @@ function HeaderProfile({ user, children }) {
                                     )
                                 } else {
                                     return (
-                                        <></>
+                                        <HeaderProfileFriendButtons user={user} />
                                     )
                                 }
                             })()}

@@ -17,7 +17,9 @@ export const updateUserPassword = (id, data) => {
     return apiPutAuth(url, data)
 }
 
-export const getUserPublicInfo = (key) => {
-    var url = `${USER_END_POINT.GET_USER_PUBLIC_INFO}/${key}`
+export const getUserPublicInfo = (key, id) => {
+    var url = `${USER_END_POINT.GET_USER_PUBLIC_INFO}?key=${key}`
+    if (id !== undefined)
+        url += `&id=${id}`
     return apiGet(url)
 }

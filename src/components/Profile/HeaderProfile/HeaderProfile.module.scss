@@ -10,25 +10,25 @@
 
 .cover-photo{
     border-radius: 0px 0px max(0px, min(8px, (-100% - 4px + 100vw) * 9999)) max(0px, min(8px, (-100% - 4px + 100vw) * 9999)) / 0px 0px 8px 8px;
-    height: 60vh;
+    height: 450px;
     width: 100%;
 }
 
 .avatar{
     position: relative;
-    bottom: 5vh;
+    bottom: 50px;
     left: 30px;
 }
 
 .info{
     position: relative;
     left: 50px;
-    bottom: 6vh
+    bottom: 60px
 }
 
 .container-buttons-user{
     position: relative;
-    bottom: 10vh;
+    bottom: 100px;
 }
 
 .update-info-button{
