@@ -1,7 +1,7 @@
 export const enum FRIEND_STATUS  {
-    UN_FRIEND = 0,
-    WATTING_ACCEPT = 1,
-    ACCEPTED = 2,
-    BLOCK = 3,
-    FRIEND_REQUEST = 4,
+    UN_FRIEND = 1,
+    WATTING_ACCEPT = 2,
+    ACCEPTED = 3,
+    BLOCK = 4,
+    FRIEND_REQUEST = 5,
 }

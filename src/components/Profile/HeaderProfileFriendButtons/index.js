@@ -52,7 +52,7 @@ function HeaderProfileFriendButtons({ user }) {
                             </Button>
                             <Button type="default">
                                 <FontAwesomeIcon icon={faUserLargeSlash} />
-                                Chấp nhận lời mời
+                                Xóa lời mời
                             </Button>
                         </Space>
                     )
