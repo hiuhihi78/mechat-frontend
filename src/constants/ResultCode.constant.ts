@@ -9,4 +9,5 @@ export enum RESULT_CODES {
     USER_BANNED = "1001",
     WRONG_PASSWORD = "2001",
     USERNAME_EXISTED = "2002",
+    FRIEND_BLOCK = "3001",
 }

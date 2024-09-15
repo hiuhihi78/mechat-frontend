@@ -17,7 +17,7 @@ import HeaderProfileFriendButtons from "../HeaderProfileFriendButtons";
 
 
 
-function HeaderProfile({ user, children }) {
+function HeaderProfile({ friendInfo, children }) {
 
 
     const auth = useAuthUser()
@@ -29,18 +29,18 @@ function HeaderProfile({ user, children }) {
     const [srcAvatar, setSrcAvatar] = useState(userAvatarDefault)
 
     useEffect(() => {
-        if (currentUser !== null && currentUser.userId === user.userId) {
+        if (currentUser !== null && currentUser.userId === friendInfo.userId) {
             setIsViewMyProfile(true)
         }
 
-        if (user.coverPhoto !== undefined)
-            setSrcCoverPhoto(user.coverPhoto)
+        if (friendInfo.coverPhoto !== undefined)
+            setSrcCoverPhoto(friendInfo.coverPhoto)
 
-        if (user.avatar !== undefined) {
-            setSrcAvatar(user.avatar)
+        if (friendInfo.avatar !== undefined) {
+            setSrcAvatar(friendInfo.avatar)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user])
+    }, [friendInfo])
 
     console.log(srcAvatar)
 
@@ -63,7 +63,7 @@ function HeaderProfile({ user, children }) {
                         size='small'
                     >
                         <p style={{ fontSize: '30px', fontWeight: 'bold' }}>
-                            {user?.fullname}
+                            {friendInfo?.fullname}
                         </p>
                         <p style={{ color: "gray" }}>205 người bạn</p>
                         <Avatar.Group>
@@ -106,7 +106,7 @@ function HeaderProfile({ user, children }) {
                                     )
                                 } else {
                                     return (
-                                        <HeaderProfileFriendButtons user={user} />
+                                        <HeaderProfileFriendButtons friendInfo={friendInfo} />
                                     )
                                 }
                             })()}

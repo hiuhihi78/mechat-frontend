@@ -6,7 +6,6 @@ import styles from "./Profile.module.scss"
 import HeaderProfile from "~/components/Profile/HeaderProfile";
 import { getUserPublicInfo } from "~/api/User";
 import { LoadingContext } from "~/contexts/LoadingContext";
-import { NotificationContext } from "~/contexts/NotificationContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import { useAuthUser } from "react-auth-kit";
 import { FRIEND_STATUS } from "~/constants/FriendStatus.constant.ts";
@@ -21,9 +20,8 @@ function Profile() {
     const user = auth()
     const navigate = useNavigate();
     const loading = useContext(LoadingContext)
-    const notification = useContext(NotificationContext)
 
-    const [userInfo, setUserInfo] = useState({})
+    const [friendInfo, setfriendInfo] = useState({})
 
     useLayoutEffect(() => {
         loading(true)
@@ -38,8 +36,8 @@ function Profile() {
                     navigate(ENPOINT.NOT_FOUND)
                     return;
                 }
-                setUserInfo({
-                    ...userInfo,
+                setfriendInfo({
+                    ...friendInfo,
                     userId: data.id,
                     email: data.email,
                     avatar: data.avatar,
@@ -59,7 +57,7 @@ function Profile() {
 
     return (
         <div className={clsx(styles['container'])}>
-            <HeaderProfile user={userInfo} />
+            <HeaderProfile friendInfo={friendInfo} />
         </div>
     );
 }

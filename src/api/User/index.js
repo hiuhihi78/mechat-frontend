@@ -1,5 +1,5 @@
 import { USER_END_POINT } from "./endpoints.ts"
-import { apiGet, apiGetAuth, apiPutAuth, apiPutAuthForm } from "../baseApi"
+import { apiGet, apiGetAuth, apiPostAuth, apiPutAuth, apiPutAuthForm } from "../baseApi"
 
 
 export const getUser = (id) => {
@@ -22,4 +22,10 @@ export const getUserPublicInfo = (key, id) => {
     if (id !== undefined)
         url += `&id=${id}`
     return apiGet(url)
+}
+
+export const makeUserFriendRelationship = (userId, friendId, status) => {
+    var url = `${USER_END_POINT.MAKE_USER_FRIEND_RELATIONSHIP}`
+    var data = { userId, friendId, status }
+    return apiPostAuth(url, data)
 }
