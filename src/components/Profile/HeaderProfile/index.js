@@ -14,6 +14,7 @@ import userAvatarDefault from '~/assets/user-avatar-default.png'
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
 import { useAuthUser } from "react-auth-kit";
 import HeaderProfileFriendButtons from "../HeaderProfileFriendButtons";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 
 
@@ -42,8 +43,6 @@ function HeaderProfile({ friendInfo, children }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [friendInfo])
 
-    console.log(srcAvatar)
-
     return (
         <div className={clsx(styles['container'])}>
             <div className={clsx(styles['content'])}>
@@ -65,27 +64,35 @@ function HeaderProfile({ friendInfo, children }) {
                         <p style={{ fontSize: '30px', fontWeight: 'bold' }}>
                             {friendInfo?.fullname}
                         </p>
-                        <p style={{ color: "gray" }}>205 người bạn</p>
-                        <Avatar.Group>
-                            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-                            <a href="https://ant.design">
-                                <Avatar
-                                    style={{
-                                        backgroundColor: '#f56a00',
-                                    }}
-                                >
-                                    K
-                                </Avatar>
-                            </a>
-                            <Tooltip title="Ant User" placement="top">
-                                <Avatar
-                                    src={userAvatarDefault}
-                                />
-                            </Tooltip>
-                            <Avatar
-                                src={userAvatarDefault}
-                            />
-                        </Avatar.Group>
+                        {(() => {
+                            if (friendInfo.totalFriends === 0) {
+                                return (
+                                    <p className={clsx(styles['total-friends'])}>Chưa có bạn bè</p>
+                                )
+                            } else {
+                                return (
+                                    <>
+                                        <p className={clsx(styles['total-friends'])}>{friendInfo.totalFriends} bạn bè</p>
+                                        <Avatar.Group style={{ zIndex: 10000 }}>
+                                            {friendInfo?.friends.map((friend, index) => {
+                                                return (
+                                                    <Tooltip title={friend.fullname} placement="bottom" trigger='hover' key={index}>
+                                                        <img src={friend.avatar}
+                                                            onClick={() => {
+                                                                var url = `${ENPOINT.PROFILE.replace(':id', friend.username)}`
+                                                                window.open(url, '_blank');
+                                                            }}
+                                                            alt="avatar"
+                                                            className={clsx(styles['friend-avatar'])}
+                                                        />
+                                                    </Tooltip>
+                                                )
+                                            })}
+                                        </Avatar.Group>
+                                    </>
+                                )
+                            }
+                        })()}
                     </Space>
                     <div
                         className={clsx(styles['container-buttons-user'])}

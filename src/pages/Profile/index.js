@@ -21,7 +21,9 @@ function Profile() {
     const navigate = useNavigate();
     const loading = useContext(LoadingContext)
 
-    const [friendInfo, setfriendInfo] = useState({})
+    const [friendInfo, setfriendInfo] = useState({
+        friends: []
+    })
 
     useLayoutEffect(() => {
         loading(true)
@@ -43,7 +45,9 @@ function Profile() {
                     avatar: data.avatar,
                     fullname: data.fullname,
                     username: data.username,
-                    relationshipStatus: data.relationshipStatus
+                    relationshipStatus: data.relationshipStatus,
+                    totalFriends: data.totalFriends,
+                    friends: data.friends
                 })
             })
             .catch(() => {
