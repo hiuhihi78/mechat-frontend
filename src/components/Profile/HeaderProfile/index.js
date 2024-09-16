@@ -4,7 +4,7 @@ import {
     faPencil,
     faUserPlus
 } from '@fortawesome/free-solid-svg-icons'
-import { Avatar, Space, Tooltip, Flex, Button } from "antd";
+import { Avatar, Space, Tooltip, Flex, Button, Divider } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,7 +14,6 @@ import userAvatarDefault from '~/assets/user-avatar-default.png'
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
 import { useAuthUser } from "react-auth-kit";
 import HeaderProfileFriendButtons from "../HeaderProfileFriendButtons";
-import { hover } from "@testing-library/user-event/dist/hover";
 
 
 
@@ -113,13 +112,15 @@ function HeaderProfile({ friendInfo, children }) {
                                     )
                                 } else {
                                     return (
-                                        <HeaderProfileFriendButtons friendInfo={friendInfo} />
+                                        <>
+                                            <HeaderProfileFriendButtons friendInfo={friendInfo} />
+                                        </>
+
                                     )
                                 }
                             })()}
                         </Flex>
-                    </div
-                    >
+                    </div>
                 </div>
             </div>
         </div>

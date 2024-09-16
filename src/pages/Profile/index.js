@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useLayoutEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 
 import styles from "./Profile.module.scss"
 import HeaderProfile from "~/components/Profile/HeaderProfile";

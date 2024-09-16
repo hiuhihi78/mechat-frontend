@@ -1,21 +1,26 @@
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useAuthUser } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
 import {
     faUserPlus,
     faUserCheck,
     faUserXmark,
-    faUserLargeSlash
+    faUserLargeSlash,
+    faUserLock,
+    faUserMinus,
+    faLockOpen
 } from '@fortawesome/free-solid-svg-icons'
-import { Button, Space } from "antd";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { Button, Dropdown, Menu, Space, Modal } from "antd";
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
 import { makeUserFriendRelationship } from "~/api/User";
 import { NotificationContext } from "~/contexts/NotificationContext";
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
 import { FRIEND_STATUS } from "~/constants/FriendStatus.constant.ts";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
+
+const { confirm } = Modal;
 
 function HeaderProfileFriendButtons({ friendInfo }) {
 
@@ -24,6 +29,7 @@ function HeaderProfileFriendButtons({ friendInfo }) {
     const notification = useContext(NotificationContext)
     const navigate = useNavigate()
 
+    const friendInfoRef = useRef(friendInfo);
     const [friendStatus, setFriendStatus] = useState(FRIEND_STATUS.UN_FRIEND)
     const [buttonLoading, setButtonLoading] = useState(false)
     const [buttonUnFriendLoading, setButtonUnFriendLoading] = useState(false)
@@ -32,59 +38,128 @@ function HeaderProfileFriendButtons({ friendInfo }) {
     const timeoutButtonFriendStatusRef = useRef(null)
     const timeoutButtonUnFriendStatusRef = useRef(null)
 
+    const itemsDropDownFrienndAcceptedStatus = useMemo(() => [
+        {
+            key: '1',
+            label: (
+                <Space><FontAwesomeIcon icon={faUserMinus} /> Hủy kết bạn</Space>
+            ),
+            onClick: () => { modalConfrimUnFriend() }
+        },
+        {
+            key: '2',
+            label: (
+                <Space className="text-red-500"><FontAwesomeIcon icon={faUserLock} /> Chặn</Space>
+            ),
+            onClick: () => { modalConfrimBlock() }
+        },
+    ], []);
+
     useLayoutEffect(() => {
         setFriendStatus(friendInfo.relationshipStatus)
     }, [friendInfo])
 
-    const handleMakeUserFriendRelationship = (status) => {
-        if (user?.userId === undefined) {
-            navigate(ENPOINT.SIGN_IN)
-            return;
-        }
-
-        if (status === FRIEND_STATUS.UN_FRIEND) {
-            setButtonUnFriendLoading(true)
-        } else {
-            setButtonLoading(true)
-        }
-
-        makeUserFriendRelationship(user.userId, friendInfo.userId, status)
-            .then((response) => {
-                if (response.code !== RESULT_CODES.SUCCESS) {
-                    notification('info', null, 'Đã xảy ra lỗi! Vui lòng tải lại trang!')
-                    return;
-                }
-
-                if (status === FRIEND_STATUS.UN_FRIEND) {
-                    timeoutButtonUnFriendStatusRef.current = setTimeout(() => {
-                        setButtonLoading(false)
-                    }, 1000)
-                } else {
-                    timeoutButtonLoadingRef.current = setTimeout(() => {
-                        setButtonLoading(false)
-                    }, 1000)
-                }
+    useLayoutEffect(() => {
+        friendInfoRef.current = friendInfo;
+    }, [friendInfo]);
 
 
+    const handleMakeUserFriendRelationship = useCallback(
+        (status) => {
+            const currentFriendInfo = friendInfoRef.current;
 
-                timeoutButtonFriendStatusRef.current = setTimeout(() => {
-                    setFriendStatus(status)
-                }, 1200)
-            })
-            .catch(() => {
+            if (user?.userId === undefined) {
+                navigate(ENPOINT.SIGN_IN);
+                return;
+            }
 
-            })
-            .finally(() => {
+            if (status === FRIEND_STATUS.UN_FRIEND) {
+                setButtonUnFriendLoading(true);
+            } else {
+                setButtonLoading(true);
+            }
 
-            })
-    }
+            makeUserFriendRelationship(user.userId, currentFriendInfo.userId, status)
+                .then((response) => {
+                    if (response.code !== RESULT_CODES.SUCCESS) {
+                        notification('info', null, 'Đã xảy ra lỗi! Vui lòng tải lại trang!');
+                        return;
+                    }
+
+                    if (status === FRIEND_STATUS.UN_FRIEND) {
+                        timeoutButtonUnFriendStatusRef.current = setTimeout(() => {
+                            setButtonUnFriendLoading(false);
+                        }, 1000);
+                    } else {
+                        timeoutButtonLoadingRef.current = setTimeout(() => {
+                            setButtonLoading(false);
+                        }, 1000);
+                    }
+
+                    timeoutButtonFriendStatusRef.current = setTimeout(() => {
+                        setFriendStatus(response.value.newRelationshipStatus);
+                    }, 1200);
+                })
+                .catch(() => {
+                    // Handle error
+                })
+                .finally(() => {
+                    // Final clean up
+                });
+        },
+        []
+    );
+
 
     useEffect(() => {
         return () => {
             clearTimeout(timeoutButtonLoadingRef.current)
             clearTimeout(timeoutButtonFriendStatusRef.current)
+            clearTimeout(timeoutButtonUnFriendStatusRef)
         }
     }, [])
+
+    const modalConfrimBlock = () => {
+        confirm({
+            title: 'Thông báo',
+            icon: <ExclamationCircleFilled />,
+            content: 'Bạn có chắc chắn chặn người dùng này không?',
+            okText: 'Đồng ý',
+            onOk() {
+                handleMakeUserFriendRelationship(FRIEND_STATUS.BLOCK)
+            },
+            okCancel: 'Hủy',
+            loading: buttonLoading,
+        });
+    }
+
+    const modalConfrimUnFriend = () => {
+        confirm({
+            title: 'Thông báo',
+            icon: <ExclamationCircleFilled />,
+            content: 'Bạn có chắc chắn hủy kết bạn người dùng này không?',
+            okText: 'Đồng ý',
+            onOk() {
+                handleMakeUserFriendRelationship(FRIEND_STATUS.UN_FRIEND)
+            },
+            okCancel: 'Hủy',
+            loading: buttonLoading,
+        });
+    }
+
+    const modalConfrimUnBlock = () => {
+        confirm({
+            title: 'Thông báo',
+            icon: <ExclamationCircleFilled />,
+            content: 'Bạn có chắc chắn bỏ chặn người dùng này không?',
+            okText: 'Đồng ý',
+            onOk() {
+                handleMakeUserFriendRelationship(FRIEND_STATUS.REQUSET_UN_BLOCK)
+            },
+            okCancel: 'Hủy',
+            loading: buttonLoading,
+        });
+    }
 
     return (
         <>
@@ -134,9 +209,26 @@ function HeaderProfileFriendButtons({ friendInfo }) {
                     )
                 } else if (friendStatus === FRIEND_STATUS.ACCEPTED) {
                     return (
-                        <Button type="default">
-                            <FontAwesomeIcon icon={faUserCheck} />
-                            Bạn bè
+                        <>
+                            <Dropdown
+                                placement="bottomRight"
+                                arrow
+                                overlay={<Menu items={itemsDropDownFrienndAcceptedStatus} />}
+                            >
+                                <Button type="default">
+                                    <FontAwesomeIcon icon={faUserCheck} />
+                                    Bạn bè
+                                </Button>
+                            </Dropdown>
+                        </>
+                    )
+                } else if (friendStatus === FRIEND_STATUS.BLOCK_REQUESTER) {
+                    return (
+                        <Button type="default" danger
+                            onClick={() => modalConfrimUnBlock()}
+                        >
+                            <FontAwesomeIcon icon={faLockOpen} />
+                            Bỏ chặn
                         </Button>
                     )
                 }

@@ -4,4 +4,6 @@ export const enum FRIEND_STATUS  {
     ACCEPTED = 3,
     BLOCK = 4,
     FRIEND_REQUEST = 5,
+    BLOCK_REQUESTER = 6,
+    REQUSET_UN_BLOCK = 7,
 }

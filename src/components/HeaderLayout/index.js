@@ -16,7 +16,6 @@ import styles from "./HeaderLayout.module.scss"
 import { useNavigate } from 'react-router-dom';
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';
 import SignOut from '../SignOut';
-import { getUserId } from '~/utils/cookie.util';
 
 
 
