@@ -12,6 +12,8 @@ import defaultImage from '~/assets/default-image.png'
 import { getBase64 } from "~/utils/file.util";
 import { NotificationContext } from "~/contexts/NotificationContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
+import clsx from "clsx";
+import styles from "./Profile.module.scss"
 
 const { confirm } = Modal;
 
@@ -26,6 +28,7 @@ export function Profile() {
     const [userInfo, setUserInfo] = useState({})
     const [userInfoBeforeChange, setUserInfoBeforeChange] = useState({})
     const [avatar, setAvatar] = useState('')
+    const [coverPhoto, setCoverPhoto] = useState('')
     const [enableEdit, setEnableEdit] = useState(false)
 
     useEffect(() => {
@@ -38,11 +41,13 @@ export function Profile() {
                 email: data.email,
                 avatar: data.avatar,
                 fullname: data.fullname,
-                username: data.username
+                username: data.username,
+                coverPhoto: data.coverPhoto
             }
             setUserInfo(info)
             setUserInfoBeforeChange(info)
             setAvatar(data.avatar)
+            setCoverPhoto(data.coverPhoto)
         }).catch((err) => {
 
         }).finally(() => {
@@ -56,11 +61,17 @@ export function Profile() {
         setEnableEdit(false)
         setUserInfo({ ...userInfoBeforeChange })
         setAvatar(userInfoBeforeChange.avatar)
+        setCoverPhoto(userInfoBeforeChange.coverPhoto)
     }
 
     const handleChangeAvatar = async (info) => {
         var imgBase64 = await getBase64(info.file.originFileObj)
         setAvatar(imgBase64)
+    }
+
+    const handleChangeCoverPhoto = async (info) => {
+        var imgBase64 = await getBase64(info.file.originFileObj)
+        setCoverPhoto(imgBase64)
     }
 
     const showConfirmEditProfile = () => {
@@ -85,7 +96,8 @@ export function Profile() {
         formUserInfo.submit()
         var data = {
             fullname: formUserInfo.getFieldValue('fullname'),
-            avatar: formUserInfo.getFieldValue('avatar')?.file?.originFileObj ?? null
+            avatar: formUserInfo.getFieldValue('avatar')?.file?.originFileObj ?? null,
+            coverPhoto: formUserInfo.getFieldValue('coverPhoto')?.file?.originFileObj ?? null
         }
         loading(true)
         updateUserInfo(user.userId, data)
@@ -199,31 +211,59 @@ export function Profile() {
                     <Col span={6}>
 
                         <Flex vertical align="center" >
-                            <Avatar
-                                size={200}
-                                src={avatar}
-                                fallback={defaultImage}
-                                className="mb-5"
-                            />
-                            {enableEdit === true ?
-                                <Form.Item
-                                    name='avatar'
-                                    required
-                                    style={{ width: '100%', textAlign: 'center' }}
-                                >
-                                    <Upload
-                                        showUploadList={false}
-                                        maxCount={2}
-                                        accept=".png, .jpeg, .jpg"
-                                        onChange={handleChangeAvatar}
+                            <>
+                                <Avatar
+                                    size={150}
+                                    src={avatar}
+                                    fallback={defaultImage}
+                                    className="mb-5"
+                                />
+                                {enableEdit === true ?
+                                    <Form.Item
+                                        name='avatar'
+                                        required
+                                        style={{ width: '100%', textAlign: 'center' }}
                                     >
-                                        <Button icon={<UploadOutlined />}>Tải lên</Button>
-                                        <div style={{ textAlign: 'center' }}> (PNG, JPG hoặc JPEG)</div>
-                                    </Upload>
-                                </Form.Item>
-                                :
-                                <></>
-                            }
+                                        <Upload
+                                            showUploadList={false}
+                                            maxCount={2}
+                                            accept=".png, .jpeg, .jpg"
+                                            onChange={handleChangeAvatar}
+                                        >
+                                            <Button icon={<UploadOutlined />}>Tải lên</Button>
+                                            <div style={{ textAlign: 'center' }}> (PNG, JPG hoặc JPEG)</div>
+                                        </Upload>
+                                    </Form.Item>
+                                    :
+                                    <></>
+                                }
+                            </>
+                            <>
+                                <img
+                                    src={coverPhoto}
+                                    className={clsx(styles['cover-photo'])}
+                                    alt="cover-photo"
+                                />
+                                {enableEdit === true ?
+                                    <Form.Item
+                                        name='coverPhoto'
+                                        required
+                                        style={{ width: '100%', textAlign: 'center' }}
+                                    >
+                                        <Upload
+                                            showUploadList={false}
+                                            maxCount={2}
+                                            accept=".png, .jpeg, .jpg"
+                                            onChange={handleChangeCoverPhoto}
+                                        >
+                                            <Button icon={<UploadOutlined />}>Tải lên</Button>
+                                            <div style={{ textAlign: 'center' }}> (PNG, JPG hoặc JPEG)</div>
+                                        </Upload>
+                                    </Form.Item>
+                                    :
+                                    <></>
+                                }
+                            </>
                         </Flex>
                     </Col>
                 </Row >

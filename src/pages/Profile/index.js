@@ -43,6 +43,7 @@ function Profile() {
                     userId: data.id,
                     email: data.email,
                     avatar: data.avatar,
+                    coverPhoto: data.coverPhoto,
                     fullname: data.fullname,
                     username: data.username,
                     relationshipStatus: data.relationshipStatus,

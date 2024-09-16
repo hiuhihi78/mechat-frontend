@@ -2,9 +2,8 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import {
     faPencil,
-    faUserPlus
 } from '@fortawesome/free-solid-svg-icons'
-import { Avatar, Space, Tooltip, Flex, Button, Divider } from "antd";
+import { Avatar, Space, Tooltip, Flex, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
