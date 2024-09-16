@@ -53,6 +53,7 @@ function HeaderProfileFriendButtons({ friendInfo }) {
             ),
             onClick: () => { modalConfrimBlock() }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     ], []);
 
     useLayoutEffect(() => {
@@ -107,6 +108,7 @@ function HeaderProfileFriendButtons({ friendInfo }) {
                     // Final clean up
                 });
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         []
     );
 
@@ -226,6 +228,7 @@ function HeaderProfileFriendButtons({ friendInfo }) {
                     return (
                         <Button type="default" danger
                             onClick={() => modalConfrimUnBlock()}
+                            loading={buttonLoading}
                         >
                             <FontAwesomeIcon icon={faLockOpen} />
                             Bỏ chặn
