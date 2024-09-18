@@ -8,7 +8,8 @@ import {
     faUserLargeSlash,
     faUserLock,
     faUserMinus,
-    faLockOpen
+    faLockOpen,
+    faEllipsis
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Dropdown, Menu, Space, Modal } from "antd";
@@ -33,6 +34,15 @@ function HeaderProfileFriendButtons({ friendInfo }) {
     const [friendStatus, setFriendStatus] = useState(FRIEND_STATUS.UN_FRIEND)
     const [buttonLoading, setButtonLoading] = useState(false)
     const [buttonUnFriendLoading, setButtonUnFriendLoading] = useState(false)
+    const [itemDropDrownOptionBlock, setItemDropDrownOptionBlock] = useState([
+        {
+            key: '1',
+            label: (
+                <Space className="text-red-500"><FontAwesomeIcon icon={faUserLock} /> Chặn</Space>
+            ),
+            onClick: () => { modalConfrimBlock() }
+        }
+    ])
 
     const timeoutButtonLoadingRef = useRef(null)
     const timeoutButtonFriendStatusRef = useRef(null)
@@ -46,24 +56,15 @@ function HeaderProfileFriendButtons({ friendInfo }) {
             ),
             onClick: () => { modalConfrimUnFriend() }
         },
-        {
-            key: '2',
-            label: (
-                <Space className="text-red-500"><FontAwesomeIcon icon={faUserLock} /> Chặn</Space>
-            ),
-            onClick: () => { modalConfrimBlock() }
-        },
         // eslint-disable-next-line react-hooks/exhaustive-deps
     ], []);
 
+
     useLayoutEffect(() => {
         setFriendStatus(friendInfo.relationshipStatus)
-    }, [friendInfo])
-
-    useLayoutEffect(() => {
         friendInfoRef.current = friendInfo;
-    }, [friendInfo]);
 
+    }, [friendInfo])
 
     const handleMakeUserFriendRelationship = useCallback(
         (status) => {
@@ -128,9 +129,13 @@ function HeaderProfileFriendButtons({ friendInfo }) {
             content: 'Bạn có chắc chắn chặn người dùng này không?',
             okText: 'Đồng ý',
             onOk() {
-                handleMakeUserFriendRelationship(FRIEND_STATUS.BLOCK)
+                return new Promise((resolve, reject) => {
+                    handleMakeUserFriendRelationship(FRIEND_STATUS.BLOCK)
+                    setTimeout(resolve, 500);
+                });
+
             },
-            okCancel: 'Hủy',
+            cancelText: 'Hủy',
             loading: buttonLoading,
         });
     }
@@ -142,10 +147,12 @@ function HeaderProfileFriendButtons({ friendInfo }) {
             content: 'Bạn có chắc chắn hủy kết bạn người dùng này không?',
             okText: 'Đồng ý',
             onOk() {
-                handleMakeUserFriendRelationship(FRIEND_STATUS.UN_FRIEND)
+                return new Promise((resolve, reject) => {
+                    handleMakeUserFriendRelationship(FRIEND_STATUS.UN_FRIEND)
+                    setTimeout(resolve, 500);
+                });
             },
-            okCancel: 'Hủy',
-            loading: buttonLoading,
+            cancelText: 'Hủy',
         });
     }
 
@@ -156,86 +163,103 @@ function HeaderProfileFriendButtons({ friendInfo }) {
             content: 'Bạn có chắc chắn bỏ chặn người dùng này không?',
             okText: 'Đồng ý',
             onOk() {
-                handleMakeUserFriendRelationship(FRIEND_STATUS.REQUSET_UN_BLOCK)
+                return new Promise((resolve, reject) => {
+                    handleMakeUserFriendRelationship(FRIEND_STATUS.REQUSET_UN_BLOCK)
+                    setTimeout(resolve, 500);
+                });
             },
-            okCancel: 'Hủy',
+            cancelText: 'Hủy',
             loading: buttonLoading,
         });
     }
 
     return (
         <>
-            {(() => {
-                if (friendStatus === FRIEND_STATUS.UN_FRIEND) {
-                    return (
-                        <>
-                            <Button type="primary"
-                                onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.WATTING_ACCEPT)}
-                                loading={buttonLoading}
-                            >
-                                <FontAwesomeIcon icon={faUserPlus} />
-                                Thêm bạn bè
-                            </Button>
-                        </>
-                    )
-                } else if (friendStatus === FRIEND_STATUS.WATTING_ACCEPT) {
-                    return (
-                        <>
-                            <Button type="default"
-                                onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.UN_FRIEND)}
-                                loading={buttonUnFriendLoading}
-                            >
-                                <FontAwesomeIcon icon={faUserXmark} />
-                                Huỷ yêu cầu kết bạn
-                            </Button>
-                        </>
-                    )
-                } else if (friendStatus === FRIEND_STATUS.FRIEND_REQUEST) {
-                    return (
-                        <Space>
-                            <Button type="primary"
-                                onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.ACCEPTED)}
-                                loading={buttonLoading}
-                            >
-                                <FontAwesomeIcon icon={faUserCheck} />
-                                Chấp nhận lời mời
-                            </Button>
-                            <Button type="default"
-                                onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.UN_FRIEND)}
-                                loading={buttonUnFriendLoading}
-                            >
-                                <FontAwesomeIcon icon={faUserLargeSlash} />
-                                Xóa lời mời
-                            </Button>
-                        </Space>
-                    )
-                } else if (friendStatus === FRIEND_STATUS.ACCEPTED) {
-                    return (
-                        <>
-                            <Dropdown
-                                placement="bottomRight"
-                                arrow
-                                overlay={<Menu items={itemsDropDownFrienndAcceptedStatus} />}
-                            >
-                                <Button type="default">
-                                    <FontAwesomeIcon icon={faUserCheck} />
-                                    Bạn bè
+            <Space direction="horizontal">
+                <>
+                    {(() => {
+                        if (friendStatus === FRIEND_STATUS.UN_FRIEND) {
+                            return (
+                                <>
+                                    <Button type="primary"
+                                        onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.WATTING_ACCEPT)}
+                                        loading={buttonLoading}
+                                    >
+                                        <FontAwesomeIcon icon={faUserPlus} />
+                                        Thêm bạn bè
+                                    </Button>
+                                </>
+                            )
+                        } else if (friendStatus === FRIEND_STATUS.WATTING_ACCEPT) {
+                            return (
+                                <>
+                                    <Button type="default"
+                                        onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.UN_FRIEND)}
+                                        loading={buttonUnFriendLoading}
+                                    >
+                                        <FontAwesomeIcon icon={faUserXmark} />
+                                        Huỷ yêu cầu kết bạn
+                                    </Button>
+                                </>
+                            )
+                        } else if (friendStatus === FRIEND_STATUS.FRIEND_REQUEST) {
+                            return (
+                                <Space>
+                                    <Button type="primary"
+                                        onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.ACCEPTED)}
+                                        loading={buttonLoading}
+                                    >
+                                        <FontAwesomeIcon icon={faUserCheck} />
+                                        Chấp nhận lời mời
+                                    </Button>
+                                    <Button type="default"
+                                        onClick={() => handleMakeUserFriendRelationship(FRIEND_STATUS.UN_FRIEND)}
+                                        loading={buttonUnFriendLoading}
+                                    >
+                                        <FontAwesomeIcon icon={faUserLargeSlash} />
+                                        Xóa lời mời
+                                    </Button>
+                                </Space>
+                            )
+                        } else if (friendStatus === FRIEND_STATUS.ACCEPTED) {
+                            return (
+                                <>
+                                    <Dropdown
+                                        placement="bottomRight"
+                                        arrow
+                                        overlay={<Menu items={itemsDropDownFrienndAcceptedStatus} />}
+                                    >
+                                        <Button type="default">
+                                            <FontAwesomeIcon icon={faUserCheck} />
+                                            Bạn bè
+                                        </Button>
+                                    </Dropdown>
+                                </>
+                            )
+                        } else if (friendStatus === FRIEND_STATUS.BLOCK_REQUESTER) {
+                            return (
+                                <Button type="default" danger
+                                    onClick={() => modalConfrimUnBlock()}
+                                    loading={buttonLoading}
+                                >
+                                    <FontAwesomeIcon icon={faLockOpen} />
+                                    Bỏ chặn
                                 </Button>
-                            </Dropdown>
-                        </>
-                    )
-                } else if (friendStatus === FRIEND_STATUS.BLOCK_REQUESTER) {
-                    return (
-                        <Button type="default" danger
-                            onClick={() => modalConfrimUnBlock()}
-                            loading={buttonLoading}
-                        >
-                            <FontAwesomeIcon icon={faLockOpen} />
-                            Bỏ chặn
-                        </Button>
-                    )
-                }
-            })()}
+                            )
+                        }
+                    })()}
+                </>
+
+                <Dropdown
+                    placement="bottomRight"
+                    arrow
+                    overlay={<Menu items={itemDropDrownOptionBlock} />}
+                >
+                    <Button type="default" hidden={friendStatus === FRIEND_STATUS.BLOCK_REQUESTER}>
+                        <FontAwesomeIcon icon={faEllipsis} />
+                    </Button>
+                </Dropdown>
+            </Space>
         </>
     );
 }
