@@ -1,14 +1,14 @@
-import Notification from "~/contexts/NotificationContext"
-import Loading from "~/contexts/LoadingContext"
+import RealTimeContext from "../RealTime"
+import UIContextContainer from "../UI"
 
 const ContextContainer = ({ children }) => {
     return (
         <>
-            <Notification>
-                <Loading>
+            <UIContextContainer>
+                <RealTimeContext>
                     {children}
-                </Loading>
-            </Notification>
+                </RealTimeContext>
+            </UIContextContainer>
         </>
     )
 }

@@ -8,7 +8,7 @@ import { useSignIn } from 'react-auth-kit';
 import { signIn, signInByGoogle } from '~/api/Auth'
 import { RESULT_CODES } from '~/constants/ResultCode.constant.ts'
 import { storeAccessToken, storeRefreshToken, storeUserId } from '~/utils/cookie.util';
-import { LoadingContext } from '~/contexts/LoadingContext';
+import { LoadingContext } from '~/contexts/UI/LoadingContext';
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';
 
 

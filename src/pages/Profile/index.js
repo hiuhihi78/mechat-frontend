@@ -5,7 +5,7 @@ import { useContext, useLayoutEffect, useState } from "react";
 import styles from "./Profile.module.scss"
 import HeaderProfile from "~/components/Profile/HeaderProfile";
 import { getUserPublicInfo } from "~/api/User";
-import { LoadingContext } from "~/contexts/LoadingContext";
+import { LoadingContext } from "~/contexts/UI/LoadingContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import { useAuthUser } from "react-auth-kit";
 import { FRIEND_STATUS } from "~/constants/FriendStatus.constant.ts";

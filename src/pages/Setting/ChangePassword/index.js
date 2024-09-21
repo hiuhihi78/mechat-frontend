@@ -4,8 +4,8 @@ import { Form, Input, Button, Row, Col, Modal } from "antd";
 import { ExclamationCircleFilled } from '@ant-design/icons';
 
 import { updateUserPassword } from "~/api/User";
-import { LoadingContext } from "~/contexts/LoadingContext";
-import { NotificationContext } from "~/contexts/NotificationContext";
+import { LoadingContext } from "~/contexts/UI/LoadingContext";
+import { NotificationContext } from "~/contexts/UI/NotificationContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import { useNavigate } from "react-router-dom";
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";

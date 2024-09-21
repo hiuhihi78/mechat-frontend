@@ -16,6 +16,7 @@ import styles from "./HeaderLayout.module.scss"
 import { useNavigate } from 'react-router-dom';
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';
 import SignOut from '../SignOut';
+import Notification from '../Notification';
 
 
 
@@ -85,6 +86,7 @@ function HeaderLayout() {
                         return (
 
                             <div className={clsx(styles['menu-user-sign-in'])}>
+                                <Notification />
                                 <Dropdown
                                     menu={{
                                         items,

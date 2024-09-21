@@ -7,10 +7,10 @@ import { faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { ExclamationCircleFilled } from '@ant-design/icons';
 
 import { updateUserInfo, getUser } from "~/api/User";
-import { LoadingContext } from "~/contexts/LoadingContext";
+import { LoadingContext } from "~/contexts/UI/LoadingContext";
 import defaultImage from '~/assets/default-image.png'
 import { getBase64 } from "~/utils/file.util";
-import { NotificationContext } from "~/contexts/NotificationContext";
+import { NotificationContext } from "~/contexts/UI/NotificationContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
 import clsx from "clsx";
 import styles from "./Profile.module.scss"

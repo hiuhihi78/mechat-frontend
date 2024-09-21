@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useContext } from 'react';
 
 import { HTTP_STATUS_CODE } from '~/constants/HttpStatusCode.constant.ts';
-import { NotificationContext } from '~/contexts/NotificationContext';
+import { NotificationContext } from '~/contexts/UI/NotificationContext';
 import { removeAllDataInCookie } from '~/utils/cookie.util';
 
 export const ResponseInterceptor = ({ children }) => {
