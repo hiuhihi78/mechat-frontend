@@ -34,7 +34,7 @@ function HeaderProfileFriendButtons({ friendInfo }) {
     const [friendStatus, setFriendStatus] = useState(FRIEND_STATUS.UN_FRIEND)
     const [buttonLoading, setButtonLoading] = useState(false)
     const [buttonUnFriendLoading, setButtonUnFriendLoading] = useState(false)
-    const [itemDropDrownOptionBlock, setItemDropDrownOptionBlock] = useState([
+    var itemDropDrownOptionBlock = useMemo(() => [
         {
             key: '1',
             label: (
@@ -42,7 +42,8 @@ function HeaderProfileFriendButtons({ friendInfo }) {
             ),
             onClick: () => { modalConfrimBlock() }
         }
-    ])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    ], []);
 
     const timeoutButtonLoadingRef = useRef(null)
     const timeoutButtonFriendStatusRef = useRef(null)

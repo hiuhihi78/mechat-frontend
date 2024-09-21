@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
 
 import styles from "./Profile.module.scss"
 import HeaderProfile from "~/components/Profile/HeaderProfile";
@@ -29,12 +29,10 @@ function Profile() {
         loading(true)
         getUserPublicInfo(id, user?.userId)
             .then((response) => {
-                if (response.code === RESULT_CODES.NOT_FOUND) {
-                    navigate(ENPOINT.NOT_FOUND)
-                    return;
-                }
                 var data = response.value
-                if (data.relationshipStatus === FRIEND_STATUS.BLOCK) {
+                if (data.relationshipStatus === FRIEND_STATUS.BLOCK ||
+                    data.relationshipStatus === RESULT_CODES.NOT_FOUND
+                ) {
                     navigate(ENPOINT.NOT_FOUND)
                     return;
                 }
