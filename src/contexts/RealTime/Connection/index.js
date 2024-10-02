@@ -5,7 +5,7 @@ import { REAL_TIME_ENDPOINT, REAL_TIME_METHOD } from "~/api/RealTimeEndpoints";
 
 export const NotificationContext = createContext()
 
-function Notification({ children }) {
+function Connection({ children }) {
     const auth = useAuthUser()
     const user = auth()
     const [notification, setNotification] = useState('')
@@ -14,7 +14,7 @@ function Notification({ children }) {
         var userId = user?.userId
         if (userId === undefined) return;
 
-        const connection = realTimeConnection(REAL_TIME_ENDPOINT.USER);
+        const connection = realTimeConnection(REAL_TIME_ENDPOINT.CONNECTION);
         connection.start().catch((error) => console.error(error))
 
         connection.on(REAL_TIME_METHOD.NOTIFICATION, (response) => {
@@ -28,10 +28,6 @@ function Notification({ children }) {
 
     }, [user])
 
-    useEffect(() => {
-        console.log('hield ' + JSON.stringify(notification))
-    }, [notification])
-
     return (
         <NotificationContext.Provider value={notification}>
             {children}
@@ -39,4 +35,4 @@ function Notification({ children }) {
     );
 }
 
-export default Notification;
+export default Connection;

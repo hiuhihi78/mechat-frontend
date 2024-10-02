@@ -6,6 +6,6 @@ export const REAL_TIME_METHOD = {
 }
 
 export const REAL_TIME_ENDPOINT = {
-    USER: `${ROOT}/${REAL_TIME_METHOD.NOTIFICATION}`
+    CONNECTION: `${ROOT}/connection`
 }
 

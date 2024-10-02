@@ -1,7 +1,7 @@
 import { Avatar, Space } from "antd";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { NotificationContext } from "~/contexts/RealTime/Notification";
+import { NotificationContext } from "~/contexts/RealTime/Connection";
 import { NotificationContext as NotificationContextUI } from "~/contexts/UI/NotificationContext"
 
 function Notification() {

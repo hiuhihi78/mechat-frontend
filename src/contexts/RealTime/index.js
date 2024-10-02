@@ -1,11 +1,11 @@
-import Notification from "./Notification";
+import Connection from "./Connection";
 
 function RealTimeContext({ children }) {
     return (
         <>
-            <Notification>
+            <Connection>
                 {children}
-            </Notification>
+            </Connection>
         </>
     );
 }
