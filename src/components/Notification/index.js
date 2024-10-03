@@ -1,14 +1,100 @@
-import { Avatar, Space } from "antd";
-import { useContext, useEffect } from "react";
+import { Avatar, Space, Dropdown } from "antd";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faBell
+} from '@fortawesome/free-solid-svg-icons'
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NotificationContext } from "~/contexts/RealTime/Connection";
 import { NotificationContext as NotificationContextUI } from "~/contexts/UI/NotificationContext"
+import NotificationItem from "../NotificationItem";
+
+const notifications = [
+    {
+        id: 1,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+    {
+        id: 2,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+    {
+        id: 3,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+    {
+        id: 4,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+    {
+        id: 5,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+    {
+        id: 6,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+    {
+        id: 7,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+    {
+        id: 8,
+        userId: '12133',
+        createDate: '2024-10-01 13:26:00.0000000',
+        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
+        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
+        isReaded: false
+    },
+]
 
 function Notification() {
 
     const navigate = useNavigate()
     const notification = useContext(NotificationContext)
     const notifiacionUI = useContext(NotificationContextUI)
+    const [items, setItems] = useState([])
+
+    useLayoutEffect(() => {
+        // get first 5 notifications
+        notifications.forEach((notifi) => {
+            setItems((prev) => [
+                ...prev,
+                {
+                    key: notifi.id,
+                    label: (<NotificationItem notification={notifi} />)
+                }
+            ])
+        })
+    }, [])
 
     useEffect(() => {
         if (notification === undefined || notification === '')
@@ -22,7 +108,16 @@ function Notification() {
 
     return (
         <>
-            Notification
+            <Dropdown
+                menu={{
+                    items,
+                }}
+                placement="bottom"
+                arrow
+                overlayStyle={{ maxHeight: "500px", overflowY: "scroll" }}
+            >
+                <FontAwesomeIcon icon={faBell} size="lg" />
+            </Dropdown>
         </>
     );
 }

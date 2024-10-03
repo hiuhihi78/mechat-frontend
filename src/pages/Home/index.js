@@ -1,5 +1,6 @@
 import { useAuthUser } from 'react-auth-kit';
 import NotificationItem from '~/components/NotificationItem';
+import Notification from '~/components/Notification';
 
 const notification = {
     id: 1,
@@ -21,6 +22,9 @@ function Home() {
             </div>
 
             <NotificationItem notification={notification} />
+            <div style={{ marginLeft: "100px" }}>
+                <Notification />
+            </div>
         </>
     )
 }

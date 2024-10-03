@@ -4,6 +4,8 @@
     border-radius: 10px;
     display: flex;
     justify-content: space-evenly;
+    transition: 0.3s;
+    cursor: pointer;
     &:hover{
         background-color: #CCD0D5;
     }
