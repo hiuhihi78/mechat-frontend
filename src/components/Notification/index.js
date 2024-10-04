@@ -1,6 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, Space, Dropdown, Button } from "antd";
+import { Avatar, Space, Button } from "antd";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBell
@@ -106,7 +106,7 @@ function Notification() {
 
     return (
         <>
-            <div className={clsx(styles["notification-icon"])}
+            <div className={clsx(styles["notification-icon"], showNotification && styles["notification-icon_selected"])}
                 onClick={() => setShowNotification(!showNotification)}
             >
                 <FontAwesomeIcon icon={faBell} className={clsx(styles["bell-icon"])} />
@@ -121,7 +121,6 @@ function Notification() {
                     <hr className={clsx(styles["divider"])} />
                     <div className={clsx(styles["body"])}>
                         {items.map((item) => {
-                            console.log(item)
                             return (
                                 <NotificationItem notification={item} />
                             )

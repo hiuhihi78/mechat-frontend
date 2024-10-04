@@ -19,5 +19,6 @@
 .menu-user-sign-in{
     display: flex;
     justify-content: flex-end;
-    @apply mr-5 cursor-pointer 
+
+    @apply mr-5 space-x-2 cursor-pointer 
 }
