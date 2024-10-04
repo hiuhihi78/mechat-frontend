@@ -106,8 +106,7 @@ function Notification() {
 
     return (
         <>
-            <div
-                classNames={clsx(styles["notification-icon"])}
+            <div className={clsx(styles["notification-icon"])}
                 onClick={() => setShowNotification(!showNotification)}
             >
                 <FontAwesomeIcon icon={faBell} className={clsx(styles["bell-icon"])} />
