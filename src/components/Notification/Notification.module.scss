@@ -1,0 +1,62 @@
+.notification-icon{
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    transition: 0.3s;
+
+    .bell-icon{
+        font-size: 1.5rem;
+        margin-left: 0.35rem;
+        margin-top: 0.25rem;
+    }
+
+    &:hover{
+        background-color: gray;
+        border: 1px solid rgb(226, 223, 223);
+    }
+}
+
+.notification-icon_selected{
+    background-color: gray;
+    color: #1677ff;
+    border: 1px solid rgb(226, 223, 223);
+}
+
+.divider{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.container{
+    transition: 0.3s;
+    width: 400px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-radius: 10px;
+    padding: 10px;
+    
+    .header{
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items:baseline;
+        .header-title{
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .header-btn-read-all{
+            padding: 0px;
+        }
+    }
+
+    .body{
+        padding-top: 5px;
+        max-height: 500px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+    }
+
+    .footer{
+        text-align: center;
+    }
+}
+

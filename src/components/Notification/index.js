@@ -1,13 +1,17 @@
-import { Avatar, Space, Dropdown } from "antd";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Avatar, Space, Dropdown, Button } from "antd";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBell
 } from '@fortawesome/free-solid-svg-icons'
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import clsx from "clsx";
+
 import { NotificationContext } from "~/contexts/RealTime/Connection";
 import { NotificationContext as NotificationContextUI } from "~/contexts/UI/NotificationContext"
 import NotificationItem from "../NotificationItem";
+import styles from "./Notification.module.scss"
+
 
 const notifications = [
     {
@@ -81,19 +85,13 @@ function Notification() {
     const navigate = useNavigate()
     const notification = useContext(NotificationContext)
     const notifiacionUI = useContext(NotificationContextUI)
+
     const [items, setItems] = useState([])
+    const [showNotification, setShowNotification] = useState(false)
 
     useLayoutEffect(() => {
         // get first 5 notifications
-        notifications.forEach((notifi) => {
-            setItems((prev) => [
-                ...prev,
-                {
-                    key: notifi.id,
-                    label: (<NotificationItem notification={notifi} />)
-                }
-            ])
-        })
+        setItems(notifications)
     }, [])
 
     useEffect(() => {
@@ -108,16 +106,35 @@ function Notification() {
 
     return (
         <>
-            <Dropdown
-                menu={{
-                    items,
-                }}
-                placement="bottom"
-                arrow
-                overlayStyle={{ maxHeight: "500px", overflowY: "scroll" }}
+            <div
+                classNames={clsx(styles["notification-icon"])}
+                onClick={() => setShowNotification(!showNotification)}
             >
-                <FontAwesomeIcon icon={faBell} size="lg" />
-            </Dropdown>
+                <FontAwesomeIcon icon={faBell} className={clsx(styles["bell-icon"])} />
+            </div>
+
+            {showNotification ?
+                <div className={clsx(styles["container"])}>
+                    <div className={clsx(styles["header"])}>
+                        <span className={clsx(styles["header-title"])}>Thông báo</span>
+                        <Button type="link" className={clsx(styles["header-btn-read-all"])}>Đánh dấu tất cả đã đọc</Button>
+                    </div>
+                    <hr className={clsx(styles["divider"])} />
+                    <div className={clsx(styles["body"])}>
+                        {items.map((item) => {
+                            console.log(item)
+                            return (
+                                <NotificationItem notification={item} />
+                            )
+                        })}
+                    </div>
+                    <div className={clsx(styles["footer"])}>
+                        <Button type="link">Xem thêm</Button>
+                    </div>
+                </div>
+                :
+                <></>
+            }
         </>
     );
 }
