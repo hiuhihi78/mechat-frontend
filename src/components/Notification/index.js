@@ -1,6 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, Space, Button } from "antd";
+import { Avatar, Space, Button, Badge } from "antd";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBell
@@ -11,6 +11,8 @@ import { NotificationContext } from "~/contexts/RealTime/Connection";
 import { NotificationContext as NotificationContextUI } from "~/contexts/UI/NotificationContext"
 import NotificationItem from "../NotificationItem";
 import styles from "./Notification.module.scss"
+import { getNotifications } from "~/api/Notification";
+import { useAuthUser } from "react-auth-kit";
 
 
 const notifications = [
@@ -88,28 +90,76 @@ function Notification() {
 
     const [items, setItems] = useState([])
     const [showNotification, setShowNotification] = useState(false)
+    const [numberUnReadNotification, setNumberUnReadNotification] = useState(0)
+    const [hasNextPage, setHasNextPage] = useState(false)
 
     useLayoutEffect(() => {
         // get first 5 notifications
+
+        getNotifications()
+            .then((response) => {
+                setItems(response.value.items)
+                setHasNextPage(response.value.hasNextPage)
+            })
+            .catch((err) => {
+
+            })
+            .finally(() => {
+
+            })
+
         setItems(notifications)
+
+        setNumberUnReadNotification(0)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
         if (notification === undefined || notification === '')
             return;
+
+        //open modal notification
+        notifiacionUI(
+            'open',
+            '',
+            <Space><Avatar src={notification.Image} />{notification.Content}</Space>, 'bottomLeft',
+            () => { navigate(notification.Link) })
+
         console.log(notification)
-        notifiacionUI('open', '', <Space><Avatar src={notification.Image} />{notification.Content}</Space>, 'bottomLeft',
-            () => { navigate(notification.Link) }
-        )
+
+        //add new notification into list
+        setItems((prev) =>
+            [
+                {
+                    id: notification.Id,
+                    content: notification.Content,
+                    createdDate: notification.CreatedDate,
+                    image: notification.Image,
+                    isReaded: notification.IsReaded,
+                    link: notification.Link,
+                },
+                ...prev
+            ])
+
+        setNumberUnReadNotification(numberUnReadNotification + 1)
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [notification])
 
+    const handleClickNotification = () => {
+        setShowNotification(!showNotification)
+        setNumberUnReadNotification(0)
+    }
+
     return (
-        <>
+        <div className={clsx(styles['notification'])}>
+
             <div className={clsx(styles["notification-icon"], showNotification && styles["notification-icon_selected"])}
-                onClick={() => setShowNotification(!showNotification)}
+                onClick={handleClickNotification}
             >
-                <FontAwesomeIcon icon={faBell} className={clsx(styles["bell-icon"])} />
+                <Badge count={numberUnReadNotification}>
+                    <FontAwesomeIcon icon={faBell} className={clsx(styles["bell-icon"])} />
+                </Badge>
             </div>
 
             {showNotification ?
@@ -122,18 +172,18 @@ function Notification() {
                     <div className={clsx(styles["body"])}>
                         {items.map((item) => {
                             return (
-                                <NotificationItem notification={item} />
+                                <NotificationItem key={item.id} notification={item} />
                             )
                         })}
                     </div>
                     <div className={clsx(styles["footer"])}>
-                        <Button type="link">Xem thêm</Button>
+                        <Button type="link" hidden={!hasNextPage}>Xem thêm</Button>
                     </div>
                 </div>
                 :
                 <></>
             }
-        </>
+        </div>
     );
 }
 

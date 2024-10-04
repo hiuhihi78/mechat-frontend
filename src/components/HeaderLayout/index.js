@@ -95,7 +95,7 @@ function HeaderLayout() {
                                     arrow
                                     styles={{ minWidth: '40px' }}
                                 >
-                                    <Space>
+                                    <Space style={{ width: "150px" }}>
                                         {user.avatar === '' ?
                                             <Avatar size="default" icon={<UserOutlined />} />
                                             :

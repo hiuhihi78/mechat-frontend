@@ -17,7 +17,7 @@ function NotificationItem({ notification }) {
                 </div>
                 <div className={clsx(styles['time'])}>
                     <p className={notification.isReaded ? clsx(styles["time_Read"]) : ''}>
-                        {moment(notification.createDate).fromNow()}
+                        {moment(notification.createdDate).fromNow()}
                     </p>
                 </div>
             </div>
