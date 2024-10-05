@@ -3,11 +3,16 @@ import styles from "./NotificationItem.module.scss"
 import { Avatar } from "antd";
 import moment from 'moment';
 import 'moment/locale/vi';
+import { useNavigate } from "react-router-dom";
 
 function NotificationItem({ notification }) {
 
+    const navigate = useNavigate()
+
     return (
-        <div className={clsx(styles['container'])}>
+        <div className={clsx(styles['container'])}
+            onClick={() => navigate(notification.link)}
+        >
             <div className={clsx(styles['image'])}>
                 <Avatar src={notification.image} size="large" />
             </div>

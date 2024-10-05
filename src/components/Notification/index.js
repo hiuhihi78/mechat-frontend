@@ -1,6 +1,6 @@
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, Space, Button, Badge } from "antd";
+import { Avatar, Space, Button, Badge, Empty } from "antd";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBell
@@ -11,76 +11,8 @@ import { NotificationContext } from "~/contexts/RealTime/Connection";
 import { NotificationContext as NotificationContextUI } from "~/contexts/UI/NotificationContext"
 import NotificationItem from "../NotificationItem";
 import styles from "./Notification.module.scss"
-import { getNotifications } from "~/api/Notification";
-import { useAuthUser } from "react-auth-kit";
+import { getNotifications, readNotification, readAllNotification } from "~/api/Notification";
 
-
-const notifications = [
-    {
-        id: 1,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-    {
-        id: 2,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-    {
-        id: 3,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-    {
-        id: 4,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-    {
-        id: 5,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-    {
-        id: 6,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-    {
-        id: 7,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-    {
-        id: 8,
-        userId: '12133',
-        createDate: '2024-10-01 13:26:00.0000000',
-        content: 'Lê Đức Hiếu đã gửi cho bạn yêu cầu kết bạn.',
-        image: 'https://me-chat.s3.ap-southeast-1.amazonaws.com/962ec689-39ca-41c7-6398-08dce2f49e41_2024102807271622.jpg',
-        isReaded: false
-    },
-]
 
 function Notification() {
 
@@ -92,6 +24,7 @@ function Notification() {
     const [showNotification, setShowNotification] = useState(false)
     const [numberUnReadNotification, setNumberUnReadNotification] = useState(0)
     const [hasNextPage, setHasNextPage] = useState(false)
+    const [pageIndex, setPageIndex] = useState(1)
 
     useLayoutEffect(() => {
         // get first 5 notifications
@@ -101,14 +34,6 @@ function Notification() {
                 setItems(response.value.items)
                 setHasNextPage(response.value.hasNextPage)
             })
-            .catch((err) => {
-
-            })
-            .finally(() => {
-
-            })
-
-        setItems(notifications)
 
         setNumberUnReadNotification(0)
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,6 +76,53 @@ function Notification() {
         setNumberUnReadNotification(0)
     }
 
+    const handleReadNotification = (id, isReaded) => {
+        //close popup notification
+        setShowNotification(false)
+
+        if (isReaded)
+            return;
+
+        //make readed in UI
+        var readNotificationIndex = items.findIndex(x => x.id === id)
+        var notificationRead = items.find(x => x.id === id)
+        var makeReaded = {
+            ...notificationRead,
+            isReaded: true
+        }
+        items.splice(readNotificationIndex, 1, makeReaded)
+        setItems([...items])
+
+        //make readed in db
+        readNotification(id)
+    }
+
+    const getMoreNotifications = () => {
+        var newPageIndex = pageIndex + 1
+        setPageIndex(newPageIndex)
+        getNotifications(newPageIndex)
+            .then((response) => {
+                setItems((prev) => [
+                    ...prev,
+                    ...response.value.items
+                ])
+                setHasNextPage(response.value.hasNextPage)
+            })
+    }
+
+    const handleReadAllNotification = () => {
+        //UI
+        let readAllNotifications = items.map(item => ({
+            ...item,
+            isReaded: true
+        }));
+        setItems(readAllNotifications)
+
+        //make readed in db
+        readAllNotification()
+
+    }
+
     return (
         <div className={clsx(styles['notification'])}>
 
@@ -166,18 +138,39 @@ function Notification() {
                 <div className={clsx(styles["container"])}>
                     <div className={clsx(styles["header"])}>
                         <span className={clsx(styles["header-title"])}>Thông báo</span>
-                        <Button type="link" className={clsx(styles["header-btn-read-all"])}>Đánh dấu tất cả đã đọc</Button>
+                        <Button
+                            type="link"
+                            className={clsx(styles["header-btn-read-all"])}
+                            onClick={() => handleReadAllNotification()}
+                        >
+                            Đánh dấu tất cả đã đọc
+                        </Button>
                     </div>
                     <hr className={clsx(styles["divider"])} />
                     <div className={clsx(styles["body"])}>
                         {items.map((item) => {
                             return (
-                                <NotificationItem key={item.id} notification={item} />
+                                <div onClick={() => handleReadNotification(item.id, item.isReaded)}>
+                                    <NotificationItem
+                                        key={item.id}
+                                        notification={item}
+                                    />
+                                </div>
                             )
                         })}
+
+                        {(items.length === 0) &&
+                            <Empty />
+                        }
                     </div>
                     <div className={clsx(styles["footer"])}>
-                        <Button type="link" hidden={!hasNextPage}>Xem thêm</Button>
+                        <Button
+                            type="link"
+                            hidden={!hasNextPage}
+                            onClick={() => getMoreNotifications()}
+                        >
+                            Xem thêm
+                        </Button>
                     </div>
                 </div>
                 :

@@ -60,10 +60,14 @@
 
     .body{
         padding-top: 5px;
-        min-height: 460px;
-        max-height: 460px;
-        overflow-y: scroll;
+        min-height: 470px;
+        max-height: 470px;
         scrollbar-width: thin;
+        overflow: hidden;
+
+        &:hover{
+            overflow-y: scroll;
+        }
     }
 
     .footer{
