@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { APPLICATION } from "~/constants/Appication.constant.ts";
+import { APPLICATION } from "~/constants/Appication.constant";
 
 export const getAccessToken = () => {
     return Cookies.get(APPLICATION.ACCESS_TOKEN)

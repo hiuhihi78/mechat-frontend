@@ -1,4 +1,4 @@
-import { USER_END_POINT } from "./endpoints.ts"
+import { USER_END_POINT } from "./endpoints"
 import { apiGet, apiGetAuth, apiPostAuth, apiPutAuth, apiPutAuthForm } from "../baseApi"
 
 

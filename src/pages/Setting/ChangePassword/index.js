@@ -6,7 +6,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { updateUserPassword } from "~/api/User";
 import { LoadingContext } from "~/contexts/UI/LoadingContext";
 import { NotificationContext } from "~/contexts/UI/NotificationContext";
-import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
+import { RESULT_CODES } from "~/constants/ResultCode.constant";
 import { useNavigate } from "react-router-dom";
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
 import { removeAllDataInCookie } from "~/utils/cookie.util";

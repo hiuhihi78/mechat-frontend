@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { useContext } from 'react';
 
-import { HTTP_STATUS_CODE } from '~/constants/HttpStatusCode.constant.ts';
+import { HTTP_STATUS_CODE } from '~/constants/HttpStatusCode.constant';
 import { NotificationContext } from '~/contexts/UI/NotificationContext';
 import { removeAllDataInCookie } from '~/utils/cookie.util';
 

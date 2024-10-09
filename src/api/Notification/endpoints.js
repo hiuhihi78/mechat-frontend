@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from "../ApiRootEndpoint.ts";
+import { API_ENDPOINT } from "../ApiRootEndpoint";
 
 export const NOTIFICATION_END_POINT = {
     GET_NOTIFICATION: `${API_ENDPOINT.NOTIFICATION}`, // --> &pageIndex=1

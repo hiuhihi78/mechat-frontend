@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { Form, Input, Button } from 'antd';
 
 import { signUp } from '~/api/Auth'
-import { RESULT_CODES } from '~/constants/ResultCode.constant.ts'
+import { RESULT_CODES } from '~/constants/ResultCode.constant'
 import { LoadingContext } from '~/contexts/UI/LoadingContext';
 import { useNavigate } from 'react-router-dom';
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';

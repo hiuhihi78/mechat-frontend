@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from "../ApiRootEndpoint.ts";
+import { API_ENDPOINT } from "../ApiRootEndpoint";
 
 export const AUTH_END_POINT = {
     SIGN_IN: `${API_ENDPOINT.AUTH}/signIn`,

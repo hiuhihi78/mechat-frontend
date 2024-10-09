@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import { ENPOINT } from '~/constants/Enpoint.constant.ts';
 import { useNavigate } from "react-router-dom";
 import { confrimSignUp } from "~/api/Auth";
-import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
+import { RESULT_CODES } from "~/constants/ResultCode.constant";
 
 function ConfirmSignUp() {
 
@@ -29,6 +29,7 @@ function ConfirmSignUp() {
                     setLoading(false)
                 }, 5000)
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

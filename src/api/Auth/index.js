@@ -1,5 +1,5 @@
 import { apiGetAuth, apiPost } from "../baseApi"
-import { AUTH_END_POINT } from "./endpoints.ts"
+import { AUTH_END_POINT } from "./endpoints"
 import { getUserId, getAccessToken } from "~/utils/cookie.util"
 
 export const signIn = (data) => {

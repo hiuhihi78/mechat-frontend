@@ -18,8 +18,8 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { makeUserFriendRelationship } from "~/api/User";
 import { NotificationContext } from "~/contexts/UI/NotificationContext";
 import { ENPOINT } from "~/constants/Enpoint.constant.ts";
-import { FRIEND_STATUS } from "~/constants/FriendStatus.constant.ts";
-import { RESULT_CODES } from "~/constants/ResultCode.constant.ts";
+import { FRIEND_STATUS } from "~/constants/FriendStatus.constant";
+import { RESULT_CODES } from "~/constants/ResultCode.constant";
 
 const { confirm } = Modal;
 
