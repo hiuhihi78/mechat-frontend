@@ -12,6 +12,7 @@ import { NotificationContext as NotificationContextUI } from "~/contexts/UI/Noti
 import NotificationItem from "../NotificationItem";
 import styles from "./Notification.module.scss"
 import { getNotifications, readNotification, readAllNotification } from "~/api/Notification";
+import { GetNotificationContent } from './Notification.service'
 
 
 function Notification() {
@@ -47,7 +48,12 @@ function Notification() {
         notifiacionUI(
             'open',
             '',
-            <Space><Avatar src={notification.Image} />{notification.Content}</Space>, 'bottomLeft',
+            <Space>
+                <Avatar src={notification.Image} />
+                <b>{notification.RequesterName}</b>
+                <span> {GetNotificationContent(notification.Type)}</span>
+            </Space>,
+            'bottomLeft',
             () => { navigate(notification.Link) })
 
         console.log(notification)
@@ -57,7 +63,8 @@ function Notification() {
             [
                 {
                     id: notification.Id,
-                    content: notification.Content,
+                    type: notification.Type,
+                    requesterName: notification.RequesterName,
                     createdDate: notification.CreatedDate,
                     image: notification.Image,
                     isReaded: notification.IsReaded,

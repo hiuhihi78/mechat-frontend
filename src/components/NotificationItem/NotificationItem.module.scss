@@ -34,6 +34,10 @@
         max-height: 3em; /* 2 lines * line-height */
         word-wrap: break-word;
     }
+
+    .content_requesterName__isReaded{
+        color: gray;
+    }
     
     .time{
         color: #0866ff;

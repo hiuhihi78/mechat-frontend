@@ -4,6 +4,7 @@ import { Avatar } from "antd";
 import moment from 'moment';
 import 'moment/locale/vi';
 import { useNavigate } from "react-router-dom";
+import { GetNotificationContent } from "../Notification/Notification.service";
 
 function NotificationItem({ notification }) {
 
@@ -18,7 +19,12 @@ function NotificationItem({ notification }) {
             </div>
             <div className={clsx(styles['info'])}>
                 <div className={clsx(styles['content'])}>
-                    <p>{notification.content}</p>
+                    <p>
+                        <b className={notification.isReaded ? clsx(styles['content_requesterName__isReaded']) : ''}>
+                            {notification.requesterName}
+                        </b>
+                        <span> {GetNotificationContent(notification.type)}</span>
+                    </p>
                 </div>
                 <div className={clsx(styles['time'])}>
                     <p className={notification.isReaded ? clsx(styles["time_Read"]) : ''}>
