@@ -12,7 +12,7 @@ import { NotificationContext as NotificationContextUI } from "~/contexts/UI/Noti
 import NotificationItem from "../NotificationItem";
 import styles from "./Notification.module.scss"
 import { getNotifications, readNotification, readAllNotification } from "~/api/Notification";
-import { GetNotificationContent } from './Notification.service'
+import { GetNotificationContent, GetNotificationLink } from './Notification.service'
 
 
 function Notification() {
@@ -54,7 +54,7 @@ function Notification() {
                 <span> {GetNotificationContent(notification.Type)}</span>
             </Space>,
             'bottomLeft',
-            () => { navigate(notification.Link) })
+            () => { navigate(`${GetNotificationLink(notification.Type)}${notification.Link}`) })
 
         console.log(notification)
 

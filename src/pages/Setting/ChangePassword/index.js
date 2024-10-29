@@ -8,7 +8,7 @@ import { LoadingContext } from "~/contexts/UI/LoadingContext";
 import { NotificationContext } from "~/contexts/UI/NotificationContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant";
 import { useNavigate } from "react-router-dom";
-import { ENPOINT } from "~/constants/Enpoint.constant.ts";
+import { ENPOINT } from "~/constants/Enpoint.constant";
 import { removeAllDataInCookie } from "~/utils/cookie.util";
 
 const { confirm } = Modal;

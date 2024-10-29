@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Card, Layout, Menu } from 'antd';
 
-import { ENPOINT } from '~/constants/Enpoint.constant.ts';
+import { ENPOINT } from '~/constants/Enpoint.constant';
 import styles from "./SettingLayout.module.scss"
 import clsx from 'clsx';
 

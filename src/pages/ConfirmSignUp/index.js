@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState } from "react";
 
 import { Button } from 'antd';
-import { ENPOINT } from '~/constants/Enpoint.constant.ts';
+import { ENPOINT } from '~/constants/Enpoint.constant';
 import { useNavigate } from "react-router-dom";
 import { confrimSignUp } from "~/api/Auth";
 import { RESULT_CODES } from "~/constants/ResultCode.constant";

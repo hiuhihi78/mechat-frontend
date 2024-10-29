@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 import styles from "./HeaderLayout.module.scss"
 import { useNavigate } from 'react-router-dom';
-import { ENPOINT } from '~/constants/Enpoint.constant.ts';
+import { ENPOINT } from '~/constants/Enpoint.constant';
 import SignOut from '../SignOut';
 import Notification from '../Notification';
 

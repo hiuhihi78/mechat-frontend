@@ -17,7 +17,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 
 import { makeUserFriendRelationship } from "~/api/User";
 import { NotificationContext } from "~/contexts/UI/NotificationContext";
-import { ENPOINT } from "~/constants/Enpoint.constant.ts";
+import { ENPOINT } from "~/constants/Enpoint.constant";
 import { FRIEND_STATUS } from "~/constants/FriendStatus.constant";
 import { RESULT_CODES } from "~/constants/ResultCode.constant";
 

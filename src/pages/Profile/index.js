@@ -9,7 +9,7 @@ import { LoadingContext } from "~/contexts/UI/LoadingContext";
 import { RESULT_CODES } from "~/constants/ResultCode.constant";
 import { useAuthUser } from "react-auth-kit";
 import { FRIEND_STATUS } from "~/constants/FriendStatus.constant";
-import { ENPOINT } from "~/constants/Enpoint.constant.ts";
+import { ENPOINT } from "~/constants/Enpoint.constant";
 
 
 function Profile() {

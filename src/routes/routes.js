@@ -1,4 +1,4 @@
-import { ENPOINT } from "~/constants/Enpoint.constant.ts";
+import { ENPOINT } from "~/constants/Enpoint.constant";
 import { ROLE } from "~/constants/Role.constant";
 
 import EmptyLayout from "~/layouts/ChatLayout";

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 
-import { ENPOINT } from '~/constants/Enpoint.constant.ts';
+import { ENPOINT } from '~/constants/Enpoint.constant';
 import { removeAllDataInCookie } from "~/utils/cookie.util"
 
 function SignOut() {

@@ -6,12 +6,12 @@ import {
 import { Avatar, Space, Tooltip, Flex, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuthUser } from "react-auth-kit";
 
 import styles from "./HeaderProfile.module.scss"
 import userCoverImageDefault from '~/assets/user-cover-image-default.png'
 import userAvatarDefault from '~/assets/user-avatar-default.png'
-import { ENPOINT } from "~/constants/Enpoint.constant.ts";
-import { useAuthUser } from "react-auth-kit";
+import { ENPOINT } from "~/constants/Enpoint.constant";
 import HeaderProfileFriendButtons from "../HeaderProfileFriendButtons";
 
 
