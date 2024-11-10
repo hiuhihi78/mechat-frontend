@@ -4,7 +4,7 @@ import { Avatar } from "antd";
 import moment from 'moment';
 import 'moment/locale/vi';
 import { useNavigate } from "react-router-dom";
-import { GetNotificationContent } from "../Notification/Notification.service";
+import { GetNotificationContent, GetNotificationLink } from "../Notification/Notification.service";
 
 function NotificationItem({ notification }) {
 
@@ -12,7 +12,7 @@ function NotificationItem({ notification }) {
 
     return (
         <div className={clsx(styles['container'])}
-            onClick={() => navigate(notification.link)}
+            onClick={() => navigate(`${GetNotificationLink(notification.type, notification.requesterId)}`)}
         >
             <div className={clsx(styles['image'])}>
                 <Avatar src={notification.image} size="large" />

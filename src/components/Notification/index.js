@@ -54,7 +54,7 @@ function Notification() {
                 <span> {GetNotificationContent(notification.Type)}</span>
             </Space>,
             'bottomLeft',
-            () => { navigate(`${GetNotificationLink(notification.Type)}${notification.Link}`) })
+            () => { navigate(`${GetNotificationLink(notification.Type, notification.RequesterId)}`) })
 
         console.log(notification)
 
@@ -64,6 +64,7 @@ function Notification() {
                 {
                     id: notification.Id,
                     type: notification.Type,
+                    requesterId: notification.RequesterId,
                     requesterName: notification.RequesterName,
                     createdDate: notification.CreatedDate,
                     image: notification.Image,
