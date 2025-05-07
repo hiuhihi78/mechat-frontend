@@ -10,6 +10,7 @@ import { RESULT_CODES } from "~/constants/ResultCode.constant";
 import { useAuthUser } from "react-auth-kit";
 import { FRIEND_STATUS } from "~/constants/FriendStatus.constant";
 import { ENPOINT } from "~/constants/Enpoint.constant";
+import ProfileContent from "~/components/Profile/ProfileContent";
 
 
 function Profile() {
@@ -61,6 +62,7 @@ function Profile() {
     return (
         <div className={clsx(styles['container'])}>
             <HeaderProfile friendInfo={friendInfo} />
+            <ProfileContent friendInfo={friendInfo} />
         </div>
     );
 }
